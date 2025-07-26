@@ -23,6 +23,7 @@
 	</developers>
 	<modules>
 		<module>auth</module>
+		<module>demo</module>
 	</modules>
 	<scm>
 		<connection/>
