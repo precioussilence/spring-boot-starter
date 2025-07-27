@@ -1,7 +1,7 @@
 package com.zmya.tools.auth.rbac.security;
 
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.zmya.tools.auth.rbac.utils.JsonUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpMethod;
@@ -77,9 +77,8 @@ public class MultiAuthenticationFilter extends UsernamePasswordAuthenticationFil
         Map<String, String> json;
         try {
             String body = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(MapperFeature.REQUIRE_HANDLERS_FOR_JAVA8_TIMES, false);
-            json = objectMapper.readValue(body, Map.class);
+            json = JsonUtils.fromJson(body, new TypeReference<>() {
+            });
         } catch (Exception e) {
             throw new AuthenticationServiceException("Authentication body parse failed");
         }
