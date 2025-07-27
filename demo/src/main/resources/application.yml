@@ -1,0 +1,40 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  datasource:
+    url: jdbc:mysql://cd-cdb-jhkc27lu.sql.tencentcdb.com:26330/test?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: G9nAXmYv@2@R-7zc
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+
+      connection-test-query: SELECT 1
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    show-sql: false
+
+jwt:
+  expiration-in-seconds: 86400000
+  secret: "Hello Security, it's a long long story, be patient a little, lets carry on now"
+
+logging:
+  level:
+    org.springframework.security: INFO
+    com.example.jwt: DEBUG
+    org.hibernate.SQL: WARN
