@@ -22,7 +22,7 @@ public class JwtUtils {
                 .compact();
     }
 
-    public static String extractUsernameFromToken(String token, String secret) {
+    public static String parseJwt(String token, String secret) {
         Claims body = Jwts.parserBuilder()
                 .setSigningKey(generateSigningKey(secret))
                 .build()
@@ -32,15 +32,6 @@ public class JwtUtils {
             return null;
         } else {
             return body.getSubject();
-        }
-    }
-
-    public static String parseJwt(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7);
-        } else {
-            return null;
         }
     }
 

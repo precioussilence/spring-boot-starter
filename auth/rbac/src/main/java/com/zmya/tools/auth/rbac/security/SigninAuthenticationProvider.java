@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Component
 @AllArgsConstructor
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class SigninAuthenticationProvider implements AuthenticationProvider {
 
     private final CustomUserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
@@ -38,11 +38,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("wrong username or password");
         }
 
-        return new UsernamePasswordAuthenticationToken(
-                username,
-                password,
-                userDetails.getAuthorities()
-        );
+        return UsernamePasswordAuthenticationToken.authenticated(username, null, userDetails.getAuthorities());
     }
 
     private boolean validateCaptcha(String username, String captcha) {
@@ -51,6 +47,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
+        return SigninAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }
