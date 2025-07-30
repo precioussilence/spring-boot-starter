@@ -19,4 +19,16 @@ public class JwtProperties {
     @NotNull
     private Integer expirationInSeconds;
 
+    @NotEmpty
+    private String signinUrl;
+
+    @NotEmpty
+    private String signupUrl;
+
+    @NotEmpty
+    private String usernameParameter = "username";
+
+    @NotEmpty
+    private String passwordParameter = "password";
+
 }

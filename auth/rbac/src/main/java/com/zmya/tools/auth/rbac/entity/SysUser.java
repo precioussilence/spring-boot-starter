@@ -59,14 +59,14 @@ public class SysUser {
     private Long createdBy;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_time")
+    @Column(name = "created_time", insertable = false, updatable = false)
     private Instant createdTime;
 
     @Column(name = "updated_by")
     private Long updatedBy;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "updated_time")
+    @Column(name = "updated_time", insertable = false, updatable = false)
     private Instant updatedTime;
 
     @OneToMany(mappedBy = "user")

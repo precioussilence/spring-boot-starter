@@ -46,11 +46,11 @@ public class SysApi {
     private Integer status;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_time")
+    @Column(name = "created_time", insertable = false, updatable = false)
     private Instant createdTime;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "updated_time")
+    @Column(name = "updated_time", insertable = false, updatable = false)
     private Instant updatedTime;
 
     @OneToMany(mappedBy = "api")

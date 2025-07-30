@@ -32,6 +32,8 @@ spring:
 jwt:
   expiration-in-seconds: 86400000
   secret: "Hello Security, it's a long long story, be patient a little, lets carry on now"
+  signin-url: "/auth/signin"
+  signup-url: "/auth/signup"
 
 logging:
   level:

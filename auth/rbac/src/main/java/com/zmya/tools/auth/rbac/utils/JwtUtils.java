@@ -26,9 +26,9 @@ public class JwtUtils {
         Claims body = Jwts.parserBuilder()
                 .setSigningKey(generateSigningKey(secret))
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
-        if (body.getExpiration().after(new Date())) {
+        if (body.getExpiration().before(new Date())) {
             return null;
         } else {
             return body.getSubject();

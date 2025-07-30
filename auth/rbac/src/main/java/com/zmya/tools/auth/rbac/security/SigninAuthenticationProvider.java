@@ -1,6 +1,8 @@
 package com.zmya.tools.auth.rbac.security;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.zmya.tools.auth.rbac.service.CustomUserDetailsService;
+import com.zmya.tools.auth.rbac.utils.JsonUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -9,11 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-@Component
 @AllArgsConstructor
 public class SigninAuthenticationProvider implements AuthenticationProvider {
 
@@ -24,8 +24,8 @@ public class SigninAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getPrincipal().toString();
         String password = authentication.getCredentials().toString();
-
-        Map<String, String> details = (Map<String, String>) authentication.getDetails();
+        Map<String, String> details = JsonUtils.fromJson(JsonUtils.toJson(authentication.getDetails()), new TypeReference<>() {
+        });
         if (!validateCaptcha(username, details.get("captcha"))) {
             throw new BadCredentialsException("captcha is invalid or expired");
         }

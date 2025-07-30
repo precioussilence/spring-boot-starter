@@ -20,6 +20,7 @@ public class UserService {
         sysUser.setEmail(request.getEmail());
         sysUser.setPhone(request.getPhone());
         sysUser.setAvatar(request.getAvatar());
+        sysUser.setStatus(1);
         return sysUserRepository.save(sysUser);
     }
 

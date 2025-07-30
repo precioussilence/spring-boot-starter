@@ -11,11 +11,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-@Component
 @AllArgsConstructor
 public class JwtAuthenticationProvider implements AuthenticationProvider {
     private final CustomUserDetailsService userDetailsService;

@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class JsonUtils {
 
-    private static final ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
+    public static final ObjectMapper OBJECT_MAPPER = Jackson2ObjectMapperBuilder.json()
             .modules(new JavaTimeModule())
             .featuresToDisable(
                     SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,
@@ -26,7 +26,7 @@ public class JsonUtils {
 
     public static String toPrettyJson(Object obj) {
         try {
-            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+            return OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             throw new JacksonException("convert to json failed", e);
         }
@@ -34,7 +34,7 @@ public class JsonUtils {
 
     public static String toJson(Object obj) {
         try {
-            return objectMapper.writeValueAsString(obj);
+            return OBJECT_MAPPER.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             throw new JacksonException("convert to json failed", e);
         }
@@ -42,7 +42,7 @@ public class JsonUtils {
 
     public static <T> T fromJson(String json, Class<T> clazz) {
         try {
-            return objectMapper.readValue(json, clazz);
+            return OBJECT_MAPPER.readValue(json, clazz);
         } catch (IOException e) {
             throw new JacksonException("parse json failed", e);
         }
@@ -50,7 +50,7 @@ public class JsonUtils {
 
     public static <T> T fromJson(String json, TypeReference<T> typeRef) {
         try {
-            return objectMapper.readValue(json, typeRef);
+            return OBJECT_MAPPER.readValue(json, typeRef);
         } catch (IOException e) {
             throw new JacksonException("parse json failed", e);
         }
@@ -58,7 +58,7 @@ public class JsonUtils {
 
     public static JsonNode toJsonNode(String json) {
         try {
-            return objectMapper.readTree(json);
+            return OBJECT_MAPPER.readTree(json);
         } catch (IOException e) {
             throw new JacksonException("parse json failed", e);
         }

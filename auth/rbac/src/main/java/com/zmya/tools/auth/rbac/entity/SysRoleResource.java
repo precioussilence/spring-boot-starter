@@ -33,7 +33,7 @@ public class SysRoleResource {
     private SysResource resource;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_time")
+    @Column(name = "created_time", insertable = false, updatable = false)
     private Instant createdTime;
 
 }
