@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,6 +29,10 @@ public class ApiResponse<T> {
                 message,
                 null
         );
+    }
+
+    public static <T> ApiResponse<T> error(HttpStatus status) {
+        return new ApiResponse<>(status.value(), status.getReasonPhrase(), null);
     }
 }
 
