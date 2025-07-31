@@ -2,6 +2,7 @@ package com.zmya.tools.auth.rbac.error;
 
 import com.zmya.tools.auth.rbac.response.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -34,6 +35,7 @@ public class GlobalControllerAdvice {
         return ApiResponse.error(HttpStatus.FORBIDDEN);
     }
 
+    // JSR Validation: @Valid
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ApiResponse<String> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpServletRequest request) {
         Map<String, String> fieldErrors = new HashMap<>();
@@ -42,7 +44,18 @@ public class GlobalControllerAdvice {
             String errorMessage = error.getDefaultMessage();
             fieldErrors.put(fieldName, errorMessage);
         });
-        log.info("parameter invalid: URI={},Message={}", request.getRequestURI(), fieldErrors);
+        log.warn("JSR Validation: URI={},Message={}", request.getRequestURI(), fieldErrors);
+        return ApiResponse.error(HttpStatus.BAD_REQUEST);
+    }
+
+    // Spring Validation: @Validated
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ApiResponse<String> handleConstraintViolation(ConstraintViolationException ex, HttpServletRequest request) {
+        Map<String, String> fieldErrors = new HashMap<>();
+        ex.getConstraintViolations().forEach(violation -> {
+            fieldErrors.put(violation.getPropertyPath().toString(), violation.getMessage());
+        });
+        log.warn("Spring Validation: URI={},Message={}", request.getRequestURI(), fieldErrors);
         return ApiResponse.error(HttpStatus.BAD_REQUEST);
     }
 
