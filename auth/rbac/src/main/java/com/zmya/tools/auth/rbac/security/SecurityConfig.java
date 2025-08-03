@@ -52,17 +52,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    SigninAuthenticationFilter signinAuthenticationFilter,
-                                                   JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable).sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        http.addFilterAt(signinAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        http.authorizeHttpRequests(auth -> auth
+                                                   JwtAuthenticationFilter jwtAuthenticationFilter,
+                                                   CustomAuthorizationManager customAuthorizationManager) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(signinAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers(jwtProperties.getSignupUrl())
                         .permitAll()
                         .anyRequest()
-                        .authenticated())
-                .exceptionHandling(config -> config.authenticationEntryPoint(new CustomAuthenticationEntryPoint()));
+                        .access(customAuthorizationManager))
+                .exceptionHandling(config -> config
+                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                        .accessDeniedHandler(new CustomAccessDeniedHandler()));
         return http.build();
     }
 
