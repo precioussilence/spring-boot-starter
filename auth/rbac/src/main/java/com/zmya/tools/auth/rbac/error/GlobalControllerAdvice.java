@@ -1,6 +1,6 @@
 package com.zmya.tools.auth.rbac.error;
 
-import com.zmya.tools.auth.rbac.response.ApiResponse;
+import com.zmya.tools.auth.rbac.model.response.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;

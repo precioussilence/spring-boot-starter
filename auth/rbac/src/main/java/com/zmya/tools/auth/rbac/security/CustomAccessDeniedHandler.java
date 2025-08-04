@@ -1,7 +1,7 @@
 package com.zmya.tools.auth.rbac.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zmya.tools.auth.rbac.response.ApiResponse;
+import com.zmya.tools.auth.rbac.model.response.ApiResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

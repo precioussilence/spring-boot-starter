@@ -1,4 +1,4 @@
-package com.zmya.tools.auth.rbac.request;
+package com.zmya.tools.auth.rbac.model.request;
 
 import lombok.Data;
 

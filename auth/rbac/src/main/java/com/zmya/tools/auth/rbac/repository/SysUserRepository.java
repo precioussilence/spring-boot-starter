@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface SysUserRepository extends JpaRepository<SysUser, Long> {
@@ -18,4 +19,7 @@ public interface SysUserRepository extends JpaRepository<SysUser, Long> {
             "and r.status=1")
     List<String> findGrantedRoleCodes(@Param("username") String username);
 
+    void removeByIdIn(Collection<Long> ids);
+
+    List<SysUser> findByUsername(String username);
 }

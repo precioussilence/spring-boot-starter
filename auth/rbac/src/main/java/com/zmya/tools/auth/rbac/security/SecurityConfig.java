@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAt(signinAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(jwtProperties.getSignupUrl())
+                        .requestMatchers(jwtProperties.getSignupUrl(), "/sys/user/query")
                         .permitAll()
                         .anyRequest()
                         .access(customAuthorizationManager))

@@ -1,4 +1,4 @@
-package com.zmya.tools.auth.rbac.response;
+package com.zmya.tools.auth.rbac.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
