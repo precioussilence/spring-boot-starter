@@ -1,28 +1,20 @@
 package com.zmya.tools.auth.rbac.service;
 
-import com.zmya.tools.auth.rbac.utils.HolderUtils;
-import org.springframework.security.core.userdetails.User;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-
 @Service
+@AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
+
+    private final AuthorityService authorityService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // todo: load user from db
-        Map<String, String> user = HolderUtils.obtainUser(username);
-        if (user == null) {
-            return null;
-        } else {
-            return User.builder()
-                    .username(username)
-                    .password(user.get(username))
-                    .build();
-        }
+        return authorityService.getUserDetails(username);
     }
 
     public String loadCaptcha(String username) throws UsernameNotFoundException {
