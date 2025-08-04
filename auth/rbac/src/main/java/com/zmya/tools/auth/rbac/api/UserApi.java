@@ -23,7 +23,7 @@ public class UserApi {
 
     private final UserService userService;
 
-    @PostMapping("save")
+    @PostMapping("/save")
     public ApiResponse<Boolean> save(@RequestBody SaveUserRequest request) {
         SysUser save = userService.save(request);
         return ApiResponse.success(Objects.nonNull(save), "success");

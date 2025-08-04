@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class ModifyUserRequest {
 
-    @NotNull
+    @NotNull(message = "userId cannot be null")
     private Long userId;
     private String nickname;
     private String email;

@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface SysRoleRepository extends JpaRepository<SysRole, Long> {
     List<SysRole> findByIdIn(Collection<Long> ids);
+
+    void removeByIdIn(Collection<Long> ids);
 }
