@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface SysResourceRepository extends JpaRepository<SysResource, Long> {
     List<SysResource> findByIdIn(Collection<Long> ids);
+
+    void removeByIdIn(Collection<Long> ids);
 }
