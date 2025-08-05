@@ -4,10 +4,7 @@ import com.zmya.tools.auth.rbac.entity.SysResource;
 import com.zmya.tools.auth.rbac.model.dto.ApiDTO;
 import com.zmya.tools.auth.rbac.model.dto.PageResultDTO;
 import com.zmya.tools.auth.rbac.model.dto.ResourceDTO;
-import com.zmya.tools.auth.rbac.model.request.ListApiRequest;
-import com.zmya.tools.auth.rbac.model.request.ModifyResourceRequest;
-import com.zmya.tools.auth.rbac.model.request.PageResourceRequest;
-import com.zmya.tools.auth.rbac.model.request.SaveResourceRequest;
+import com.zmya.tools.auth.rbac.model.request.*;
 import com.zmya.tools.auth.rbac.model.response.ApiResponse;
 import com.zmya.tools.auth.rbac.service.ApiService;
 import com.zmya.tools.auth.rbac.service.ResourceService;
@@ -52,6 +49,12 @@ public class ResourceApi {
     public ApiResponse<List<ApiDTO>> list(ListApiRequest request) {
         List<ApiDTO> list = apiService.list(request);
         return ApiResponse.success(list, "success");
+    }
+
+    @PostMapping("/api/save")
+    public ApiResponse<Boolean> saveApi(@RequestBody SaveResourceApiRequest request) {
+        boolean save = apiService.save(request);
+        return ApiResponse.success(save, "success");
     }
 
 }

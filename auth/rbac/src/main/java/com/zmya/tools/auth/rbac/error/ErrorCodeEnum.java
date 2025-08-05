@@ -7,6 +7,7 @@ public enum ErrorCodeEnum {
     USER_NOT_FOUND(400001, "User Not Found"),
     ROLE_NOT_FOUND(400002, "Role Not Found"),
     RESOURCE_NOT_FOUND(400003, "Resource Not Found"),
+    API_NOT_FOUND(400004, "Api Not Found"),
     ;
 
     private final int code;

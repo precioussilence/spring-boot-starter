@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface SysApiRepository extends JpaRepository<SysApi, Long>, JpaSpecificationExecutor<SysApi> {
@@ -23,4 +24,5 @@ public interface SysApiRepository extends JpaRepository<SysApi, Long>, JpaSpecif
             "and r.status=1")
     List<String> findRequiredRoleCodes(@Param("url") String url, @Param("method") String method);
 
+    List<SysApi> findByIdIn(Collection<Long> ids);
 }
