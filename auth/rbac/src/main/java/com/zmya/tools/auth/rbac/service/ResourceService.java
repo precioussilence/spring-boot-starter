@@ -11,14 +11,13 @@ import com.zmya.tools.auth.rbac.model.request.ModifyResourceRequest;
 import com.zmya.tools.auth.rbac.model.request.PageResourceRequest;
 import com.zmya.tools.auth.rbac.model.request.SaveResourceRequest;
 import com.zmya.tools.auth.rbac.repository.SysResourceRepository;
+import com.zmya.tools.auth.rbac.utils.ModelConvertUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -89,18 +88,8 @@ public class ResourceService {
         pageResultDTO.setPageSize(page.getSize());
         pageResultDTO.setTotalElements(page.getTotalElements());
         pageResultDTO.setTotalPages(page.getTotalPages());
-        pageResultDTO.setContent(from(page.getContent()));
+        pageResultDTO.setContent(ModelConvertUtils.fromResources(page.getContent()));
         return pageResultDTO;
-    }
-
-    private List<ResourceDTO> from(List<SysResource> sysResources) {
-        List<ResourceDTO> resourceDTOList = new ArrayList<>();
-        for (SysResource sysResource : sysResources) {
-            ResourceDTO resourceDTO = new ResourceDTO();
-            BeanUtils.copyProperties(sysResource, resourceDTO);
-            resourceDTOList.add(resourceDTO);
-        }
-        return resourceDTOList;
     }
 
 }

@@ -7,6 +7,7 @@ import java.time.Instant;
 @Data
 public class ApiDTO {
 
+    private Long id;
     private String apiName;
     private String url;
     private String method;

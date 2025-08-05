@@ -71,7 +71,7 @@ public class RoleService {
         pageResultDTO.setPageSize(page.getSize());
         pageResultDTO.setTotalElements(page.getTotalElements());
         pageResultDTO.setTotalPages(page.getTotalPages());
-        pageResultDTO.setContent(ModelConvertUtils.from(page.getContent()));
+        pageResultDTO.setContent(ModelConvertUtils.fromRoles(page.getContent()));
         return pageResultDTO;
     }
 

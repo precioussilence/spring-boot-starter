@@ -58,7 +58,7 @@ public class UserApi {
     }
 
     @GetMapping("/role/list")
-    public ApiResponse<List<RoleDTO>> list(Long userId) {
+    public ApiResponse<List<RoleDTO>> listRole(Long userId) {
         List<RoleDTO> page = userRoleService.list(userId);
         return ApiResponse.success(page, "success");
     }

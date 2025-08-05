@@ -69,7 +69,7 @@ public class UserRoleService {
         if (CollectionUtils.isEmpty(allRoles)) {
             return new ArrayList<>();
         }
-        List<RoleDTO> roleDTOS = ModelConvertUtils.from(allRoles);
+        List<RoleDTO> roleDTOS = ModelConvertUtils.fromRoles(allRoles);
         List<SysUserRole> userRoles = sysUserRoleRepository.findByUser_Id(userId);
         if (CollectionUtils.isEmpty(userRoles)) {
             return roleDTOS;

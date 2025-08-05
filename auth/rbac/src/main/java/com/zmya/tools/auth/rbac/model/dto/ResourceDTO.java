@@ -7,6 +7,7 @@ import java.time.Instant;
 @Data
 public class ResourceDTO {
 
+    private Long id;
     private String resourceName;
     private String resourceCode;
     private Integer resourceType;
@@ -18,5 +19,7 @@ public class ResourceDTO {
     private Integer status;
     private Instant createdTime;
     private Instant updatedTime;
+
+    private Boolean owned;
 
 }
