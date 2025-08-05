@@ -25,4 +25,6 @@ public interface SysApiRepository extends JpaRepository<SysApi, Long>, JpaSpecif
     List<String> findRequiredRoleCodes(@Param("url") String url, @Param("method") String method);
 
     List<SysApi> findByIdIn(Collection<Long> ids);
+
+    List<SysApi> findByUrlAndMethod(String url, String method);
 }
