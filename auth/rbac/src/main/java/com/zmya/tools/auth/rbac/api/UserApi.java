@@ -2,11 +2,14 @@ package com.zmya.tools.auth.rbac.api;
 
 import com.zmya.tools.auth.rbac.entity.SysUser;
 import com.zmya.tools.auth.rbac.model.dto.PageResultDTO;
+import com.zmya.tools.auth.rbac.model.dto.RoleDTO;
 import com.zmya.tools.auth.rbac.model.dto.UserDTO;
 import com.zmya.tools.auth.rbac.model.request.ModifyUserRequest;
 import com.zmya.tools.auth.rbac.model.request.PageUserRequest;
 import com.zmya.tools.auth.rbac.model.request.SaveUserRequest;
+import com.zmya.tools.auth.rbac.model.request.SaveUserRoleRequest;
 import com.zmya.tools.auth.rbac.model.response.ApiResponse;
+import com.zmya.tools.auth.rbac.service.UserRoleService;
 import com.zmya.tools.auth.rbac.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +25,7 @@ import java.util.Objects;
 public class UserApi {
 
     private final UserService userService;
+    private final UserRoleService userRoleService;
 
     @PostMapping("/save")
     public ApiResponse<Boolean> save(@RequestBody SaveUserRequest request) {
@@ -41,9 +45,21 @@ public class UserApi {
         return ApiResponse.success(modify, "success");
     }
 
-    @GetMapping("/query")
-    public ApiResponse<PageResultDTO<UserDTO>> query(PageUserRequest request) {
+    @GetMapping("/page")
+    public ApiResponse<PageResultDTO<UserDTO>> page(PageUserRequest request) {
         PageResultDTO<UserDTO> page = userService.query(request);
+        return ApiResponse.success(page, "success");
+    }
+
+    @PostMapping("/role/save")
+    public ApiResponse<Boolean> saveRole(@RequestBody SaveUserRoleRequest request) {
+        boolean save = userRoleService.save(request);
+        return ApiResponse.success(save, "success");
+    }
+
+    @GetMapping("/role/list")
+    public ApiResponse<List<RoleDTO>> list(Long userId) {
+        List<RoleDTO> page = userRoleService.list(userId);
         return ApiResponse.success(page, "success");
     }
 

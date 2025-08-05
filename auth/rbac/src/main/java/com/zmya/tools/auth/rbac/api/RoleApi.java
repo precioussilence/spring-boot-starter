@@ -38,8 +38,8 @@ public class RoleApi {
         return ApiResponse.success(modify, "success");
     }
 
-    @GetMapping("/query")
-    public ApiResponse<PageResultDTO<RoleDTO>> query(PageRoleRequest request) {
+    @GetMapping("/page")
+    public ApiResponse<PageResultDTO<RoleDTO>> page(PageRoleRequest request) {
         PageResultDTO<RoleDTO> page = roleService.query(request);
         return ApiResponse.success(page, "success");
     }

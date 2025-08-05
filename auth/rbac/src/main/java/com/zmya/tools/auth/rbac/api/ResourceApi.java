@@ -42,8 +42,8 @@ public class ResourceApi {
         return ApiResponse.success(modify, "success");
     }
 
-    @GetMapping("/query")
-    public ApiResponse<PageResultDTO<ResourceDTO>> query(PageResourceRequest request) {
+    @GetMapping("/page")
+    public ApiResponse<PageResultDTO<ResourceDTO>> page(PageResourceRequest request) {
         PageResultDTO<ResourceDTO> page = resourceService.query(request);
         return ApiResponse.success(page, "success");
     }

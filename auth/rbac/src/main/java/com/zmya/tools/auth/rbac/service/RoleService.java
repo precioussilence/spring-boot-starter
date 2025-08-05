@@ -10,14 +10,13 @@ import com.zmya.tools.auth.rbac.model.request.ModifyRoleRequest;
 import com.zmya.tools.auth.rbac.model.request.PageRoleRequest;
 import com.zmya.tools.auth.rbac.model.request.SaveRoleRequest;
 import com.zmya.tools.auth.rbac.repository.SysRoleRepository;
+import com.zmya.tools.auth.rbac.utils.ModelConvertUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -72,18 +71,8 @@ public class RoleService {
         pageResultDTO.setPageSize(page.getSize());
         pageResultDTO.setTotalElements(page.getTotalElements());
         pageResultDTO.setTotalPages(page.getTotalPages());
-        pageResultDTO.setContent(from(page.getContent()));
+        pageResultDTO.setContent(ModelConvertUtils.from(page.getContent()));
         return pageResultDTO;
-    }
-
-    private List<RoleDTO> from(List<SysRole> sysRoles) {
-        List<RoleDTO> roleDTOList = new ArrayList<>();
-        for (SysRole sysRole : sysRoles) {
-            RoleDTO roleDTO = new RoleDTO();
-            BeanUtils.copyProperties(sysRole, roleDTO);
-            roleDTOList.add(roleDTO);
-        }
-        return roleDTOList;
     }
 
 }
