@@ -8,7 +8,7 @@ import com.zmya.tools.auth.rbac.error.ErrorCodeEnum;
 import com.zmya.tools.auth.rbac.model.dto.PageResultDTO;
 import com.zmya.tools.auth.rbac.model.dto.ResourceDTO;
 import com.zmya.tools.auth.rbac.model.request.ModifyResourceRequest;
-import com.zmya.tools.auth.rbac.model.request.QueryResourceRequest;
+import com.zmya.tools.auth.rbac.model.request.PageResourceRequest;
 import com.zmya.tools.auth.rbac.model.request.SaveResourceRequest;
 import com.zmya.tools.auth.rbac.repository.SysResourceRepository;
 import lombok.AllArgsConstructor;
@@ -81,7 +81,7 @@ public class ResourceService {
         return sysResourceRepository.save(sysResource);
     }
 
-    public PageResultDTO<ResourceDTO> query(QueryResourceRequest request) {
+    public PageResultDTO<ResourceDTO> query(PageResourceRequest request) {
         PageRequest pageRequest = PageRequest.of(request.getPageNumber(), request.getPageSize());
         Page<SysResource> page = sysResourceRepository.findAll(pageRequest);
         PageResultDTO<ResourceDTO> pageResultDTO = new PageResultDTO<>();

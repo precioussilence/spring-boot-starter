@@ -1,12 +1,15 @@
 package com.zmya.tools.auth.rbac.api;
 
 import com.zmya.tools.auth.rbac.entity.SysResource;
+import com.zmya.tools.auth.rbac.model.dto.ApiDTO;
 import com.zmya.tools.auth.rbac.model.dto.PageResultDTO;
 import com.zmya.tools.auth.rbac.model.dto.ResourceDTO;
+import com.zmya.tools.auth.rbac.model.request.ListApiRequest;
 import com.zmya.tools.auth.rbac.model.request.ModifyResourceRequest;
-import com.zmya.tools.auth.rbac.model.request.QueryResourceRequest;
+import com.zmya.tools.auth.rbac.model.request.PageResourceRequest;
 import com.zmya.tools.auth.rbac.model.request.SaveResourceRequest;
 import com.zmya.tools.auth.rbac.model.response.ApiResponse;
+import com.zmya.tools.auth.rbac.service.ApiService;
 import com.zmya.tools.auth.rbac.service.ResourceService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,7 @@ import java.util.Objects;
 public class ResourceApi {
 
     private final ResourceService resourceService;
+    private final ApiService apiService;
 
     @PostMapping("/save")
     public ApiResponse<Boolean> save(@RequestBody SaveResourceRequest request) {
@@ -39,9 +43,15 @@ public class ResourceApi {
     }
 
     @GetMapping("/query")
-    public ApiResponse<PageResultDTO<ResourceDTO>> query(QueryResourceRequest request) {
+    public ApiResponse<PageResultDTO<ResourceDTO>> query(PageResourceRequest request) {
         PageResultDTO<ResourceDTO> page = resourceService.query(request);
         return ApiResponse.success(page, "success");
+    }
+
+    @GetMapping("/api/list")
+    public ApiResponse<List<ApiDTO>> list(ListApiRequest request) {
+        List<ApiDTO> list = apiService.list(request);
+        return ApiResponse.success(list, "success");
     }
 
 }

@@ -2,12 +2,13 @@ package com.zmya.tools.auth.rbac.repository;
 
 import com.zmya.tools.auth.rbac.entity.SysApi;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface SysApiRepository extends JpaRepository<SysApi, Long> {
+public interface SysApiRepository extends JpaRepository<SysApi, Long>, JpaSpecificationExecutor<SysApi> {
 
     @Query("select r.roleCode " +
             "from SysApi a " +

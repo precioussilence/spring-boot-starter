@@ -4,7 +4,7 @@ import com.zmya.tools.auth.rbac.entity.SysRole;
 import com.zmya.tools.auth.rbac.model.dto.PageResultDTO;
 import com.zmya.tools.auth.rbac.model.dto.RoleDTO;
 import com.zmya.tools.auth.rbac.model.request.ModifyRoleRequest;
-import com.zmya.tools.auth.rbac.model.request.QueryRoleRequest;
+import com.zmya.tools.auth.rbac.model.request.PageRoleRequest;
 import com.zmya.tools.auth.rbac.model.request.SaveRoleRequest;
 import com.zmya.tools.auth.rbac.model.response.ApiResponse;
 import com.zmya.tools.auth.rbac.service.RoleService;
@@ -39,7 +39,7 @@ public class RoleApi {
     }
 
     @GetMapping("/query")
-    public ApiResponse<PageResultDTO<RoleDTO>> query(QueryRoleRequest request) {
+    public ApiResponse<PageResultDTO<RoleDTO>> query(PageRoleRequest request) {
         PageResultDTO<RoleDTO> page = roleService.query(request);
         return ApiResponse.success(page, "success");
     }

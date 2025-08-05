@@ -6,8 +6,8 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class QueryRoleRequest extends PageQueryDTO {
+public class PageResourceRequest extends PageQueryDTO {
 
-    private String roleName;
+    private String resourceName;
 
 }

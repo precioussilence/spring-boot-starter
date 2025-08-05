@@ -7,7 +7,7 @@ import com.zmya.tools.auth.rbac.error.ErrorCodeEnum;
 import com.zmya.tools.auth.rbac.model.dto.PageResultDTO;
 import com.zmya.tools.auth.rbac.model.dto.RoleDTO;
 import com.zmya.tools.auth.rbac.model.request.ModifyRoleRequest;
-import com.zmya.tools.auth.rbac.model.request.QueryRoleRequest;
+import com.zmya.tools.auth.rbac.model.request.PageRoleRequest;
 import com.zmya.tools.auth.rbac.model.request.SaveRoleRequest;
 import com.zmya.tools.auth.rbac.repository.SysRoleRepository;
 import lombok.AllArgsConstructor;
@@ -64,7 +64,7 @@ public class RoleService {
         return sysRoleRepository.save(sysRole);
     }
 
-    public PageResultDTO<RoleDTO> query(QueryRoleRequest request) {
+    public PageResultDTO<RoleDTO> query(PageRoleRequest request) {
         PageRequest pageRequest = PageRequest.of(request.getPageNumber(), request.getPageSize());
         Page<SysRole> page = sysRoleRepository.findAll(pageRequest);
         PageResultDTO<RoleDTO> pageResultDTO = new PageResultDTO<>();

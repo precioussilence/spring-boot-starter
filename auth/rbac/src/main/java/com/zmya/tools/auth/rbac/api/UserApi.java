@@ -4,7 +4,7 @@ import com.zmya.tools.auth.rbac.entity.SysUser;
 import com.zmya.tools.auth.rbac.model.dto.PageResultDTO;
 import com.zmya.tools.auth.rbac.model.dto.UserDTO;
 import com.zmya.tools.auth.rbac.model.request.ModifyUserRequest;
-import com.zmya.tools.auth.rbac.model.request.QueryUserRequest;
+import com.zmya.tools.auth.rbac.model.request.PageUserRequest;
 import com.zmya.tools.auth.rbac.model.request.SaveUserRequest;
 import com.zmya.tools.auth.rbac.model.response.ApiResponse;
 import com.zmya.tools.auth.rbac.service.UserService;
@@ -42,7 +42,7 @@ public class UserApi {
     }
 
     @GetMapping("/query")
-    public ApiResponse<PageResultDTO<UserDTO>> query(QueryUserRequest request) {
+    public ApiResponse<PageResultDTO<UserDTO>> query(PageUserRequest request) {
         PageResultDTO<UserDTO> page = userService.query(request);
         return ApiResponse.success(page, "success");
     }

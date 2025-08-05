@@ -7,7 +7,7 @@ import com.zmya.tools.auth.rbac.error.ErrorCodeEnum;
 import com.zmya.tools.auth.rbac.model.dto.PageResultDTO;
 import com.zmya.tools.auth.rbac.model.dto.UserDTO;
 import com.zmya.tools.auth.rbac.model.request.ModifyUserRequest;
-import com.zmya.tools.auth.rbac.model.request.QueryUserRequest;
+import com.zmya.tools.auth.rbac.model.request.PageUserRequest;
 import com.zmya.tools.auth.rbac.model.request.SaveUserRequest;
 import com.zmya.tools.auth.rbac.model.request.SignupRequest;
 import com.zmya.tools.auth.rbac.repository.SysUserRepository;
@@ -82,7 +82,7 @@ public class UserService {
         return sysUserRepository.save(sysUser);
     }
 
-    public PageResultDTO<UserDTO> query(QueryUserRequest request) {
+    public PageResultDTO<UserDTO> query(PageUserRequest request) {
         PageRequest pageRequest = PageRequest.of(request.getPageNumber(), request.getPageSize());
         Page<SysUser> page = sysUserRepository.findAll(pageRequest);
         PageResultDTO<UserDTO> pageResultDTO = new PageResultDTO<>();
