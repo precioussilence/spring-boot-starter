@@ -5,9 +5,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://cd-cdb-jhkc27lu.sql.tencentcdb.com:26330/auth?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-    username: root
-    password: G9nAXmYv@2@R-7zc
+    url: jdbc:mysql://ip:port/auth?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: your_username
+    password: your_password
     driver-class-name: com.mysql.cj.jdbc.Driver
 
     hikari:
