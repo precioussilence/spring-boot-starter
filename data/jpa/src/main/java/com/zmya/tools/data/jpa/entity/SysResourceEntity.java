@@ -15,7 +15,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "sys_resource")
-public class SysResource {
+public class SysResourceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -66,20 +66,22 @@ public class SysResource {
     private Long createdBy;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_time", insertable = false, updatable = false)
+    @Column(name = "created_time")
     private Instant createdTime;
 
     @Column(name = "updated_by")
     private Long updatedBy;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "updated_time", insertable = false, updatable = false)
+    @Column(name = "updated_time")
     private Instant updatedTime;
 
-    @OneToMany(mappedBy = "resource")
-    private Set<SysResourceApi> sysResourceApis = new LinkedHashSet<>();
+    @OneToMany
+    @JoinColumn(name = "resource_id")
+    private Set<SysResourceApiEntity> sysResourceApis = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "resource")
-    private Set<SysRoleResource> sysRoleResources = new LinkedHashSet<>();
+    @OneToMany
+    @JoinColumn(name = "resource_id")
+    private Set<SysRoleResourceEntity> sysRoleResources = new LinkedHashSet<>();
 
 }

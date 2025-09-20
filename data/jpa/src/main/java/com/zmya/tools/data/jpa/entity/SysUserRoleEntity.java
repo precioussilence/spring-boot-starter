@@ -13,8 +13,8 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "sys_role_resource")
-public class SysRoleResource {
+@Table(name = "sys_user_role")
+public class SysUserRoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -23,17 +23,17 @@ public class SysRoleResource {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "role_id", nullable = false)
-    private SysRole role;
+    @JoinColumn(name = "user_id", nullable = false)
+    private SysUserEntity user;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "resource_id", nullable = false)
-    private SysResource resource;
+    @JoinColumn(name = "role_id", nullable = false)
+    private SysRoleEntity role;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_time", insertable = false, updatable = false)
+    @Column(name = "created_time")
     private Instant createdTime;
 
 }

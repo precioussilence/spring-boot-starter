@@ -2,6 +2,7 @@ package com.zmya.tools.data.jpa.adapter;
 
 import com.zmya.tools.data.core.dao.SysUserDao;
 import com.zmya.tools.data.core.model.SysUser;
+import com.zmya.tools.data.jpa.entity.SysUserEntity;
 import com.zmya.tools.data.jpa.repository.SysUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -30,7 +31,7 @@ public class SysUserDaoAdapter implements SysUserDao {
 
     @Override
     public List<SysUser> findByUsername(String username) {
-        List<com.zmya.tools.data.jpa.entity.SysUser> list = sysUserRepository.findByUsername(username);
+        List<SysUserEntity> list = sysUserRepository.findByUsername(username);
         return list.stream().map(source -> {
             SysUser target = new SysUser();
             BeanUtils.copyProperties(source, target);

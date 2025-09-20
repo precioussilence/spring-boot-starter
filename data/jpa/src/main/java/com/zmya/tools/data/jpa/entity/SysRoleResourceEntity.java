@@ -13,8 +13,8 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "sys_resource_api")
-public class SysResourceApi {
+@Table(name = "sys_role_resource")
+public class SysRoleResourceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -23,17 +23,17 @@ public class SysResourceApi {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "resource_id", nullable = false)
-    private SysResource resource;
+    @JoinColumn(name = "role_id", nullable = false)
+    private SysRoleEntity role;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "api_id", nullable = false)
-    private SysApi api;
+    @JoinColumn(name = "resource_id", nullable = false)
+    private SysResourceEntity resource;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_time", insertable = false, updatable = false)
+    @Column(name = "created_time")
     private Instant createdTime;
 
 }

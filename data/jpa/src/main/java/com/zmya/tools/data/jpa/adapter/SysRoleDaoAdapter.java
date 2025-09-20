@@ -2,6 +2,7 @@ package com.zmya.tools.data.jpa.adapter;
 
 import com.zmya.tools.data.core.dao.SysRoleDao;
 import com.zmya.tools.data.core.model.SysRole;
+import com.zmya.tools.data.jpa.entity.SysRoleEntity;
 import com.zmya.tools.data.jpa.repository.SysRoleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -20,7 +21,7 @@ public class SysRoleDaoAdapter implements SysRoleDao {
 
     @Override
     public List<SysRole> findByIdIn(Collection<Long> ids) {
-        List<com.zmya.tools.data.jpa.entity.SysRole> list = sysRoleRepository.findByIdIn(ids);
+        List<SysRoleEntity> list = sysRoleRepository.findByIdIn(ids);
         return list.stream().map(source -> {
             SysRole target = new SysRole();
             BeanUtils.copyProperties(source, target);

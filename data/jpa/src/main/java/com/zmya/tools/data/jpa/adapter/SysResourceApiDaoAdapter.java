@@ -2,6 +2,9 @@ package com.zmya.tools.data.jpa.adapter;
 
 import com.zmya.tools.data.core.dao.SysResourceApiDao;
 import com.zmya.tools.data.core.model.SysResourceApi;
+import com.zmya.tools.data.jpa.entity.SysApiEntity;
+import com.zmya.tools.data.jpa.entity.SysResourceApiEntity;
+import com.zmya.tools.data.jpa.entity.SysResourceEntity;
 import com.zmya.tools.data.jpa.repository.SysResourceApiRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -20,12 +23,12 @@ public class SysResourceApiDaoAdapter implements SysResourceApiDao {
 
     @Override
     public List<SysResourceApi> findByApiIn(Collection<Long> apiIds) {
-        List<com.zmya.tools.data.jpa.entity.SysApi> apiList = apiIds.stream().map(id -> {
-            com.zmya.tools.data.jpa.entity.SysApi api = new com.zmya.tools.data.jpa.entity.SysApi();
+        List<SysApiEntity> apiList = apiIds.stream().map(id -> {
+            SysApiEntity api = new SysApiEntity();
             api.setId(id);
             return api;
         }).toList();
-        List<com.zmya.tools.data.jpa.entity.SysResourceApi> list = sysResourceApiRepository.findByApiIn(apiList);
+        List<SysResourceApiEntity> list = sysResourceApiRepository.findByApiIn(apiList);
         return list.stream().map(source -> {
             SysResourceApi target = new SysResourceApi();
             BeanUtils.copyProperties(source, target);
@@ -35,14 +38,14 @@ public class SysResourceApiDaoAdapter implements SysResourceApiDao {
 
     @Override
     public List<SysResourceApi> findByResourceAndApiIn(Long resourceId, Collection<Long> apiIds) {
-        List<com.zmya.tools.data.jpa.entity.SysApi> apiList = apiIds.stream().map(id -> {
-            com.zmya.tools.data.jpa.entity.SysApi api = new com.zmya.tools.data.jpa.entity.SysApi();
+        List<SysApiEntity> apiList = apiIds.stream().map(id -> {
+            SysApiEntity api = new SysApiEntity();
             api.setId(id);
             return api;
         }).toList();
-        com.zmya.tools.data.jpa.entity.SysResource resource = new com.zmya.tools.data.jpa.entity.SysResource();
+        SysResourceEntity resource = new SysResourceEntity();
         resource.setId(resourceId);
-        List<com.zmya.tools.data.jpa.entity.SysResourceApi> list = sysResourceApiRepository.findByResourceAndApiIn(resource, apiList);
+        List<SysResourceApiEntity> list = sysResourceApiRepository.findByResourceAndApiIn(resource, apiList);
         return list.stream().map(source -> {
             SysResourceApi target = new SysResourceApi();
             BeanUtils.copyProperties(source, target);

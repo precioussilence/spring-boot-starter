@@ -1,15 +1,15 @@
 package com.zmya.tools.data.jpa.repository;
 
-import com.zmya.tools.data.jpa.entity.SysApi;
-import com.zmya.tools.data.jpa.entity.SysResource;
-import com.zmya.tools.data.jpa.entity.SysResourceApi;
+import com.zmya.tools.data.jpa.entity.SysApiEntity;
+import com.zmya.tools.data.jpa.entity.SysResourceApiEntity;
+import com.zmya.tools.data.jpa.entity.SysResourceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
 import java.util.List;
 
-public interface SysResourceApiRepository extends JpaRepository<SysResourceApi, Long> {
-    List<SysResourceApi> findByApiIn(Collection<SysApi> apis);
+public interface SysResourceApiRepository extends JpaRepository<SysResourceApiEntity, Long> {
+    List<SysResourceApiEntity> findByApiIn(Collection<SysApiEntity> apis);
 
-    List<SysResourceApi> findByResourceAndApiIn(SysResource resource, Collection<SysApi> apis);
+    List<SysResourceApiEntity> findByResourceAndApiIn(SysResourceEntity resource, Collection<SysApiEntity> apis);
 }

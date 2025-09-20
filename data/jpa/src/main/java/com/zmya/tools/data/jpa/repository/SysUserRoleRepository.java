@@ -1,15 +1,15 @@
 package com.zmya.tools.data.jpa.repository;
 
-import com.zmya.tools.data.jpa.entity.SysRole;
-import com.zmya.tools.data.jpa.entity.SysUser;
-import com.zmya.tools.data.jpa.entity.SysUserRole;
+import com.zmya.tools.data.jpa.entity.SysRoleEntity;
+import com.zmya.tools.data.jpa.entity.SysUserEntity;
+import com.zmya.tools.data.jpa.entity.SysUserRoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
 import java.util.List;
 
-public interface SysUserRoleRepository extends JpaRepository<SysUserRole, Long> {
-    List<SysUserRole> findByUserAndRoleIn(SysUser user, Collection<SysRole> roles);
+public interface SysUserRoleRepository extends JpaRepository<SysUserRoleEntity, Long> {
+    List<SysUserRoleEntity> findByUserAndRoleIn(SysUserEntity user, Collection<SysRoleEntity> roles);
 
-    List<SysUserRole> findByUser_Id(Long userId);
+    List<SysUserRoleEntity> findByUser_Id(Long userId);
 }

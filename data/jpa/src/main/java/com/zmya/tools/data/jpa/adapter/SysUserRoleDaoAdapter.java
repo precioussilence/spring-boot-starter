@@ -2,8 +2,9 @@ package com.zmya.tools.data.jpa.adapter;
 
 import com.zmya.tools.data.core.dao.SysUserRoleDao;
 import com.zmya.tools.data.core.model.SysUserRole;
-import com.zmya.tools.data.jpa.entity.SysRole;
-import com.zmya.tools.data.jpa.entity.SysUser;
+import com.zmya.tools.data.jpa.entity.SysRoleEntity;
+import com.zmya.tools.data.jpa.entity.SysUserEntity;
+import com.zmya.tools.data.jpa.entity.SysUserRoleEntity;
 import com.zmya.tools.data.jpa.repository.SysUserRoleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -22,14 +23,14 @@ public class SysUserRoleDaoAdapter implements SysUserRoleDao {
 
     @Override
     public List<SysUserRole> findByUserAndRoleIn(Long userId, Collection<Long> roleIds) {
-        SysUser sysUser = new SysUser();
+        SysUserEntity sysUser = new SysUserEntity();
         sysUser.setId(userId);
-        List<SysRole> roleList = roleIds.stream().map(id -> {
-            SysRole role = new SysRole();
+        List<SysRoleEntity> roleList = roleIds.stream().map(id -> {
+            SysRoleEntity role = new SysRoleEntity();
             role.setId(id);
             return role;
         }).toList();
-        List<com.zmya.tools.data.jpa.entity.SysUserRole> list = sysUserRoleRepository.findByUserAndRoleIn(sysUser, roleList);
+        List<SysUserRoleEntity> list = sysUserRoleRepository.findByUserAndRoleIn(sysUser, roleList);
         return list.stream().map(source -> {
             SysUserRole target = new SysUserRole();
             BeanUtils.copyProperties(source, target);
@@ -39,7 +40,7 @@ public class SysUserRoleDaoAdapter implements SysUserRoleDao {
 
     @Override
     public List<SysUserRole> findByUserId(Long userId) {
-        List<com.zmya.tools.data.jpa.entity.SysUserRole> list = sysUserRoleRepository.findByUser_Id(userId);
+        List<SysUserRoleEntity> list = sysUserRoleRepository.findByUser_Id(userId);
         return list.stream().map(source -> {
             SysUserRole target = new SysUserRole();
             BeanUtils.copyProperties(source, target);

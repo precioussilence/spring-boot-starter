@@ -2,6 +2,7 @@ package com.zmya.tools.data.jpa.adapter;
 
 import com.zmya.tools.data.core.dao.SysApiDao;
 import com.zmya.tools.data.core.model.SysApi;
+import com.zmya.tools.data.jpa.entity.SysApiEntity;
 import com.zmya.tools.data.jpa.repository.SysApiRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -25,8 +26,8 @@ public class SysApiDaoAdapter implements SysApiDao {
 
     @Override
     public List<SysApi> findByIdIn(Collection<Long> ids) {
-        List<com.zmya.tools.data.jpa.entity.SysApi> list = sysApiRepository.findByIdIn(ids);
-        return list.stream().map(source->{
+        List<SysApiEntity> list = sysApiRepository.findByIdIn(ids);
+        return list.stream().map(source -> {
             SysApi target = new SysApi();
             BeanUtils.copyProperties(source, target);
             return target;
@@ -35,8 +36,8 @@ public class SysApiDaoAdapter implements SysApiDao {
 
     @Override
     public List<SysApi> findByUrlAndMethod(String url, String method) {
-        List<com.zmya.tools.data.jpa.entity.SysApi> list = sysApiRepository.findByUrlAndMethod(url, method);
-        return list.stream().map(source->{
+        List<SysApiEntity> list = sysApiRepository.findByUrlAndMethod(url, method);
+        return list.stream().map(source -> {
             SysApi target = new SysApi();
             BeanUtils.copyProperties(source, target);
             return target;

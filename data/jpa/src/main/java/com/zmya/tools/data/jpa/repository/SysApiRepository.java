@@ -1,6 +1,6 @@
 package com.zmya.tools.data.jpa.repository;
 
-import com.zmya.tools.data.jpa.entity.SysApi;
+import com.zmya.tools.data.jpa.entity.SysApiEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -9,10 +9,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.Collection;
 import java.util.List;
 
-public interface SysApiRepository extends JpaRepository<SysApi, Long>, JpaSpecificationExecutor<SysApi> {
+public interface SysApiRepository extends JpaRepository<SysApiEntity, Long>, JpaSpecificationExecutor<SysApiEntity> {
 
     @Query("select r.roleCode " +
-            "from SysApi a " +
+            "from SysApiEntity a " +
             "join a.sysResourceApis ra " +
             "join ra.resource rs " +
             "join rs.sysRoleResources rrs " +
@@ -24,7 +24,7 @@ public interface SysApiRepository extends JpaRepository<SysApi, Long>, JpaSpecif
             "and r.status=1")
     List<String> findRequiredRoleCodes(@Param("url") String url, @Param("method") String method);
 
-    List<SysApi> findByIdIn(Collection<Long> ids);
+    List<SysApiEntity> findByIdIn(Collection<Long> ids);
 
-    List<SysApi> findByUrlAndMethod(String url, String method);
+    List<SysApiEntity> findByUrlAndMethod(String url, String method);
 }

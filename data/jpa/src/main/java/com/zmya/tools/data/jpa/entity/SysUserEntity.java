@@ -14,8 +14,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "sys_role")
-public class SysRole {
+@Table(name = "sys_user")
+public class SysUserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -23,41 +23,54 @@ public class SysRole {
 
     @Size(max = 50)
     @NotNull
-    @Column(name = "role_code", nullable = false, length = 50)
-    private String roleCode;
+    @Column(name = "username", nullable = false, length = 50)
+    private String username;
 
     @Size(max = 100)
     @NotNull
-    @Column(name = "role_name", nullable = false, length = 100)
-    private String roleName;
+    @Column(name = "password", nullable = false, length = 100)
+    private String password;
 
-    @Size(max = 500)
-    @Column(name = "description", length = 500)
-    private String description;
+    @Size(max = 50)
+    @Column(name = "nickname", length = 50)
+    private String nickname;
+
+    @Size(max = 100)
+    @Column(name = "email", length = 100)
+    private String email;
+
+    @Size(max = 20)
+    @Column(name = "phone", length = 20)
+    private String phone;
 
     @NotNull
     @ColumnDefault("1")
     @Column(name = "status", nullable = false)
     private Integer status;
 
+    @Size(max = 255)
+    @Column(name = "avatar")
+    private String avatar;
+
+    @Column(name = "last_login_time")
+    private Instant lastLoginTime;
+
     @Column(name = "created_by")
     private Long createdBy;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_time", insertable = false, updatable = false)
+    @Column(name = "created_time")
     private Instant createdTime;
 
     @Column(name = "updated_by")
     private Long updatedBy;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "updated_time", insertable = false, updatable = false)
+    @Column(name = "updated_time")
     private Instant updatedTime;
 
-    @OneToMany(mappedBy = "role")
-    private Set<SysRoleResource> sysRoleResources = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "role")
-    private Set<SysUserRole> sysUserRoles = new LinkedHashSet<>();
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private Set<SysUserRoleEntity> sysUserRoles = new LinkedHashSet<>();
 
 }

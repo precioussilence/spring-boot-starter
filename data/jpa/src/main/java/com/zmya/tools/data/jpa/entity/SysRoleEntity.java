@@ -14,27 +14,22 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "sys_api")
-public class SysApi {
+@Table(name = "sys_role")
+public class SysRoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Size(max = 200)
+    @Size(max = 50)
     @NotNull
-    @Column(name = "api_name", nullable = false, length = 200)
-    private String apiName;
+    @Column(name = "role_code", nullable = false, length = 50)
+    private String roleCode;
 
-    @Size(max = 500)
+    @Size(max = 100)
     @NotNull
-    @Column(name = "url", nullable = false, length = 500)
-    private String url;
-
-    @Size(max = 10)
-    @NotNull
-    @Column(name = "method", nullable = false, length = 10)
-    private String method;
+    @Column(name = "role_name", nullable = false, length = 100)
+    private String roleName;
 
     @Size(max = 500)
     @Column(name = "description", length = 500)
@@ -45,15 +40,26 @@ public class SysApi {
     @Column(name = "status", nullable = false)
     private Integer status;
 
+    @Column(name = "created_by")
+    private Long createdBy;
+
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_time", insertable = false, updatable = false)
+    @Column(name = "created_time")
     private Instant createdTime;
 
+    @Column(name = "updated_by")
+    private Long updatedBy;
+
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "updated_time", insertable = false, updatable = false)
+    @Column(name = "updated_time")
     private Instant updatedTime;
 
-    @OneToMany(mappedBy = "api")
-    private Set<SysResourceApi> sysResourceApis = new LinkedHashSet<>();
+    @OneToMany
+    @JoinColumn(name = "role_id")
+    private Set<SysRoleResourceEntity> sysRoleResources = new LinkedHashSet<>();
+
+    @OneToMany
+    @JoinColumn(name = "role_id")
+    private Set<SysUserRoleEntity> sysUserRoles = new LinkedHashSet<>();
 
 }

@@ -2,6 +2,7 @@ package com.zmya.tools.data.jpa.adapter;
 
 import com.zmya.tools.data.core.dao.SysResourceDao;
 import com.zmya.tools.data.core.model.SysResource;
+import com.zmya.tools.data.jpa.entity.SysResourceEntity;
 import com.zmya.tools.data.jpa.repository.SysResourceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -20,7 +21,7 @@ public class SysResourceDaoAdapter implements SysResourceDao {
 
     @Override
     public List<SysResource> findByIdIn(Collection<Long> ids) {
-        List<com.zmya.tools.data.jpa.entity.SysResource> list = sysResourceRepository.findByIdIn(ids);
+        List<SysResourceEntity> list = sysResourceRepository.findByIdIn(ids);
         return list.stream().map(source -> {
             SysResource target = new SysResource();
             BeanUtils.copyProperties(source, target);
