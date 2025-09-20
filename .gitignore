@@ -1,8 +1,38 @@
+# HELP.md
 HELP.md
+
+# Build outputs
 target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+build/
+out/
+dist/
+bin/
+
+# Maven
+pom.xml.asc
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# Logs
+logs/
+log/
+*.log
+
+# Environment configuration files
+application-*.yml
+application-*.yaml
+application-*.properties
+
+# But keep the main configuration templates
+!application.yml
+!application.yaml
+!application.properties
+
+# Spring Boot specific
+spring-boot-devtools.properties
 
 ### STS ###
 .apt_generated
@@ -14,10 +44,11 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
+*.idea
 
 ### NetBeans ###
 /nbproject/private/
@@ -25,9 +56,26 @@ target/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
+
+### System ###
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+
+# Linux
+.directory
+
+# Other
+*.swp
+*.swo
+*~
