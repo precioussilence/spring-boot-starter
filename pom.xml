@@ -25,7 +25,8 @@
 		<module>auth</module>
 		<module>demo</module>
 		<module>base</module>
-	</modules>
+        <module>data</module>
+    </modules>
 	<scm>
 		<connection/>
 		<developerConnection/>
