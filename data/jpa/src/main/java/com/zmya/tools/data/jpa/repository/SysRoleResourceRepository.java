@@ -1,0 +1,17 @@
+package com.zmya.tools.data.jpa.repository;
+
+import com.zmya.tools.data.jpa.entity.SysResource;
+import com.zmya.tools.data.jpa.entity.SysRole;
+import com.zmya.tools.data.jpa.entity.SysRoleResource;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Collection;
+import java.util.List;
+
+public interface SysRoleResourceRepository extends JpaRepository<SysRoleResource, Long> {
+    List<SysRoleResource> findByResourceIn(Collection<SysResource> resources);
+
+    List<SysRoleResource> findByRoleAndResourceIn(SysRole role, Collection<SysResource> resources);
+
+    List<SysRoleResource> findByRole_Id(Long roleId);
+}
