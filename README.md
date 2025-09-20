@@ -23,9 +23,15 @@
 
 - 🔧 完善base模块 
 - 🔧 添加更多示例模块
+- 集成Mybatis
+- 集成Redis
+- 模块组件化、可替换
 - 🔧 集成前端管理项目
 
 ### 长期规划
 
 - 🚀 代码生成器功能
 - 🌐 微服务支持(Spring Cloud集成)
+- 集成Kafka
+- 集成Netty
+- 集成Elasticsearch
