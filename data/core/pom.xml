@@ -4,19 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.zmya</groupId>
-        <artifactId>tools</artifactId>
+        <groupId>com.zmya.tools</groupId>
+        <artifactId>data</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.zmya.tools</groupId>
-    <artifactId>data</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>jpa</module>
-        <module>mybatis</module>
-        <module>core</module>
-    </modules>
+    <groupId>com.zmya.tools.data</groupId>
+    <artifactId>core</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
