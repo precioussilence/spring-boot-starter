@@ -10,9 +10,9 @@ import java.time.Instant;
 public class SysRoleResource {
     private Long id;
 
-    private SysRole role;
+    private Long roleId;
 
-    private SysResource resource;
+    private Long resourceId;
 
     private Instant createdTime;
 

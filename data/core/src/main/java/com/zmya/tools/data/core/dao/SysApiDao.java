@@ -5,11 +5,15 @@ import com.zmya.tools.data.core.model.SysApi;
 import java.util.Collection;
 import java.util.List;
 
-public interface SysApiDao  {
+public interface SysApiDao {
 
-    List<String> findRequiredRoleCodes(String url,  String method);
+    List<String> findRequiredRoleCodes(String url, String method);
 
     List<SysApi> findByIdIn(Collection<Long> ids);
 
     List<SysApi> findByUrlAndMethod(String url, String method);
+
+    List<SysApi> findByApiNameAndUrl(String apiName, String url);
+
+    List<SysApi> saveAll(Collection<SysApi> sysApis);
 }

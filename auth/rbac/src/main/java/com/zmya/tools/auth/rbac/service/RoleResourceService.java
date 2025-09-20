@@ -1,16 +1,16 @@
 package com.zmya.tools.auth.rbac.service;
 
-import com.zmya.tools.auth.rbac.entity.SysResource;
-import com.zmya.tools.auth.rbac.entity.SysRole;
-import com.zmya.tools.auth.rbac.entity.SysRoleResource;
 import com.zmya.tools.auth.rbac.error.BusinessException;
 import com.zmya.tools.auth.rbac.error.ErrorCodeEnum;
 import com.zmya.tools.auth.rbac.model.dto.ResourceDTO;
 import com.zmya.tools.auth.rbac.model.request.SaveRoleResourceRequest;
-import com.zmya.tools.auth.rbac.repository.SysResourceRepository;
-import com.zmya.tools.auth.rbac.repository.SysRoleRepository;
-import com.zmya.tools.auth.rbac.repository.SysRoleResourceRepository;
 import com.zmya.tools.auth.rbac.utils.ModelConvertUtils;
+import com.zmya.tools.data.core.dao.SysResourceDao;
+import com.zmya.tools.data.core.dao.SysRoleDao;
+import com.zmya.tools.data.core.dao.SysRoleResourceDao;
+import com.zmya.tools.data.core.model.SysResource;
+import com.zmya.tools.data.core.model.SysRole;
+import com.zmya.tools.data.core.model.SysRoleResource;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -25,16 +25,16 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class RoleResourceService {
 
-    private final SysRoleRepository sysRoleRepository;
-    private final SysResourceRepository sysResourceRepository;
-    private final SysRoleResourceRepository sysRoleResourceRepository;
+    private final SysRoleDao sysRoleDao;
+    private final SysResourceDao sysResourceDao;
+    private final SysRoleResourceDao sysRoleResourceDao;
 
     public boolean save(SaveRoleResourceRequest request) {
-        Optional<SysRole> roleOptional = sysRoleRepository.findById(request.getRoleId());
+        Optional<SysRole> roleOptional = sysRoleDao.findById(request.getRoleId());
         if (roleOptional.isEmpty()) {
             throw new BusinessException(ErrorCodeEnum.ROLE_NOT_FOUND);
         }
-        List<SysResource> resources = sysResourceRepository.findByIdIn(request.getResourceIds());
+        List<SysResource> resources = sysResourceDao.findByIdIn(request.getResourceIds());
         if (CollectionUtils.isEmpty(resources)) {
             throw new BusinessException(ErrorCodeEnum.RESOURCE_NOT_FOUND);
         }
@@ -43,11 +43,12 @@ public class RoleResourceService {
             throw new BusinessException(ErrorCodeEnum.RESOURCE_NOT_FOUND);
         }
         List<Long> needSaveResourceIds = new ArrayList<>();
-        List<SysRoleResource> savedRoleResources = sysRoleResourceRepository.findByRoleAndResourceIn(roleOptional.get(), resources);
+        List<Long> resourceIds = resources.stream().map(SysResource::getId).toList();
+        List<SysRoleResource> savedRoleResources = sysRoleResourceDao.findByRoleAndResourceIn(roleOptional.get().getId(), resourceIds);
         if (CollectionUtils.isEmpty(savedRoleResources)) {
             needSaveResourceIds.addAll(request.getResourceIds());
         } else {
-            List<Long> savedResourceIds = savedRoleResources.stream().map(SysRoleResource::getResource).map(SysResource::getId).toList();
+            List<Long> savedResourceIds = savedRoleResources.stream().map(SysRoleResource::getResourceId).toList();
             needSaveResourceIds.addAll(request.getResourceIds().stream().filter(resourceId -> !savedResourceIds.contains(resourceId)).toList());
         }
         if (needSaveResourceIds.isEmpty()) {
@@ -56,25 +57,25 @@ public class RoleResourceService {
         List<SysRoleResource> needSaveRoleResources = new ArrayList<>();
         needSaveResourceIds.forEach(resourceId -> {
             SysRoleResource sysRoleResource = new SysRoleResource();
-            sysRoleResource.setRole(sysRoleRepository.getReferenceById(request.getRoleId()));
-            sysRoleResource.setResource(sysResourceRepository.getReferenceById(resourceId));
+            sysRoleResource.setRoleId(request.getRoleId());
+            sysRoleResource.setResourceId(resourceId);
             needSaveRoleResources.add(sysRoleResource);
         });
-        List<SysRoleResource> sysRoleResources = sysRoleResourceRepository.saveAll(needSaveRoleResources);
+        List<SysRoleResource> sysRoleResources = sysRoleResourceDao.saveAll(needSaveRoleResources);
         return !CollectionUtils.isEmpty(sysRoleResources);
     }
 
     public List<ResourceDTO> list(Long roleId) {
-        List<SysResource> allResources = sysResourceRepository.findAll();
+        List<SysResource> allResources = sysResourceDao.findAll();
         if (CollectionUtils.isEmpty(allResources)) {
             return new ArrayList<>();
         }
         List<ResourceDTO> resourceDTOS = ModelConvertUtils.fromResources(allResources);
-        List<SysRoleResource> roleResources = sysRoleResourceRepository.findByRole_Id(roleId);
+        List<SysRoleResource> roleResources = sysRoleResourceDao.findByRoleId(roleId);
         if (CollectionUtils.isEmpty(roleResources)) {
             return resourceDTOS;
         }
-        List<Long> ownedResourceIds = roleResources.stream().map(SysRoleResource::getResource).map(SysResource::getId).toList();
+        List<Long> ownedResourceIds = roleResources.stream().map(SysRoleResource::getResourceId).toList();
         resourceDTOS.stream().filter(resource -> ownedResourceIds.contains(resource.getId())).forEach(roleDTO -> roleDTO.setOwned(true));
         return resourceDTOS;
     }

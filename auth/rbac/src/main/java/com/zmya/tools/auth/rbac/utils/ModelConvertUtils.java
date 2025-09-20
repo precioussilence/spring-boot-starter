@@ -1,9 +1,9 @@
 package com.zmya.tools.auth.rbac.utils;
 
-import com.zmya.tools.auth.rbac.entity.SysResource;
-import com.zmya.tools.auth.rbac.entity.SysRole;
 import com.zmya.tools.auth.rbac.model.dto.ResourceDTO;
 import com.zmya.tools.auth.rbac.model.dto.RoleDTO;
+import com.zmya.tools.data.core.model.SysResource;
+import com.zmya.tools.data.core.model.SysRole;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;

@@ -1,6 +1,5 @@
 package com.zmya.tools.auth.rbac.service;
 
-import com.zmya.tools.auth.rbac.entity.SysResource;
 import com.zmya.tools.auth.rbac.enums.ResourceStatusEnum;
 import com.zmya.tools.auth.rbac.enums.ResourceTypeEnum;
 import com.zmya.tools.auth.rbac.error.BusinessException;
@@ -10,11 +9,12 @@ import com.zmya.tools.auth.rbac.model.dto.ResourceDTO;
 import com.zmya.tools.auth.rbac.model.request.ModifyResourceRequest;
 import com.zmya.tools.auth.rbac.model.request.PageResourceRequest;
 import com.zmya.tools.auth.rbac.model.request.SaveResourceRequest;
-import com.zmya.tools.auth.rbac.repository.SysResourceRepository;
 import com.zmya.tools.auth.rbac.utils.ModelConvertUtils;
+import com.zmya.tools.data.core.common.query.PageQuery;
+import com.zmya.tools.data.core.common.result.PageResult;
+import com.zmya.tools.data.core.dao.SysResourceDao;
+import com.zmya.tools.data.core.model.SysResource;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -26,7 +26,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ResourceService {
 
-    private final SysResourceRepository sysResourceRepository;
+    private final SysResourceDao sysResourceDao;
 
     public SysResource save(SaveResourceRequest request) {
         SysResource sysResource = new SysResource();
@@ -39,16 +39,16 @@ public class ResourceService {
         sysResource.setSort(request.getSort());
         sysResource.setVisible(request.getVisible());
         sysResource.setStatus(ResourceStatusEnum.NORMAL.getStatus());
-        return sysResourceRepository.save(sysResource);
+        return sysResourceDao.save(sysResource);
     }
 
     public boolean remove(List<Long> resourceIds) {
-        sysResourceRepository.removeByIdIn((resourceIds));
+        sysResourceDao.removeByIdIn((resourceIds));
         return true;
     }
 
     public SysResource modify(ModifyResourceRequest request) {
-        Optional<SysResource> resourceOptional = sysResourceRepository.findById(request.getResourceId());
+        Optional<SysResource> resourceOptional = sysResourceDao.findById(request.getResourceId());
         if (resourceOptional.isEmpty()) {
             throw new BusinessException(ErrorCodeEnum.RESOURCE_NOT_FOUND);
         }
@@ -77,15 +77,15 @@ public class ResourceService {
         if (Objects.nonNull(request.getVisible())) {
             sysResource.setVisible(request.getVisible());
         }
-        return sysResourceRepository.save(sysResource);
+        return sysResourceDao.save(sysResource);
     }
 
     public PageResultDTO<ResourceDTO> query(PageResourceRequest request) {
-        PageRequest pageRequest = PageRequest.of(request.getPageNumber(), request.getPageSize());
-        Page<SysResource> page = sysResourceRepository.findAll(pageRequest);
+        PageQuery pageQuery = PageQuery.of(request.getPageNumber(), request.getPageSize());
+        PageResult<SysResource> page = sysResourceDao.findAll(pageQuery, request.getResourceName());
         PageResultDTO<ResourceDTO> pageResultDTO = new PageResultDTO<>();
-        pageResultDTO.setPageNumber(page.getNumber());
-        pageResultDTO.setPageSize(page.getSize());
+        pageResultDTO.setPageNumber(page.getPageNumber());
+        pageResultDTO.setPageSize(page.getPageSize());
         pageResultDTO.setTotalElements(page.getTotalElements());
         pageResultDTO.setTotalPages(page.getTotalPages());
         pageResultDTO.setContent(ModelConvertUtils.fromResources(page.getContent()));

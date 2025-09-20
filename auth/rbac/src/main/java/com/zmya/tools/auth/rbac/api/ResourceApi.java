@@ -1,6 +1,5 @@
 package com.zmya.tools.auth.rbac.api;
 
-import com.zmya.tools.auth.rbac.entity.SysResource;
 import com.zmya.tools.auth.rbac.model.dto.ApiDTO;
 import com.zmya.tools.auth.rbac.model.dto.PageResultDTO;
 import com.zmya.tools.auth.rbac.model.dto.ResourceDTO;
@@ -8,6 +7,7 @@ import com.zmya.tools.auth.rbac.model.request.*;
 import com.zmya.tools.auth.rbac.model.response.ApiResponse;
 import com.zmya.tools.auth.rbac.service.ApiService;
 import com.zmya.tools.auth.rbac.service.ResourceService;
+import com.zmya.tools.data.core.model.SysResource;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

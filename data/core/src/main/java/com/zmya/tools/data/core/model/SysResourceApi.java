@@ -10,9 +10,9 @@ import java.time.Instant;
 public class SysResourceApi {
     private Long id;
 
-    private SysResource resource;
+    private Long resourceId;
 
-    private SysApi api;
+    private Long apiId;
 
     private Instant createdTime;
 

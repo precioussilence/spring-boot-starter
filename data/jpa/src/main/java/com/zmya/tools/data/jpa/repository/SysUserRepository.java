@@ -2,13 +2,14 @@ package com.zmya.tools.data.jpa.repository;
 
 import com.zmya.tools.data.jpa.entity.SysUserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 import java.util.List;
 
-public interface SysUserRepository extends JpaRepository<SysUserEntity, Long> {
+public interface SysUserRepository extends JpaRepository<SysUserEntity, Long>, JpaSpecificationExecutor<SysUserEntity> {
 
     @Query("select r.roleCode " +
             "from SysUserEntity u " +

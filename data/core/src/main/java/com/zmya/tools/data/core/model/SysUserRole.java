@@ -10,9 +10,9 @@ import java.time.Instant;
 public class SysUserRole {
     private Long id;
 
-    private SysUser user;
+    private Long userId;
 
-    private SysRole role;
+    private Long roleId;
 
     private Instant createdTime;
 

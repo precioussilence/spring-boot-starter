@@ -10,5 +10,7 @@ public interface SysRoleResourceDao {
 
     List<SysRoleResource> findByRoleAndResourceIn(Long roleId, Collection<Long> resourceIds);
 
-    List<SysRoleResource> findByRole_Id(Long roleId);
+    List<SysRoleResource> findByRoleId(Long roleId);
+
+    List<SysRoleResource> saveAll(List<SysRoleResource> sysRoleResourceList);
 }

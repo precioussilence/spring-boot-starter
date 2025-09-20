@@ -5,8 +5,8 @@ import com.zmya.tools.data.core.model.SysResourceApi;
 import java.util.Collection;
 import java.util.List;
 
-public interface SysResourceApiDao  {
-    List<SysResourceApi> findByApiIn(Collection<Long> apiIds);
-
+public interface SysResourceApiDao {
     List<SysResourceApi> findByResourceAndApiIn(Long resourceId, Collection<Long> apiIds);
+
+    List<SysResourceApi> saveAll(Collection<SysResourceApi> sysResourceApis);
 }

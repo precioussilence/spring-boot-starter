@@ -1,6 +1,5 @@
 package com.zmya.tools.auth.rbac.api;
 
-import com.zmya.tools.auth.rbac.entity.SysUser;
 import com.zmya.tools.auth.rbac.model.dto.PageResultDTO;
 import com.zmya.tools.auth.rbac.model.dto.RoleDTO;
 import com.zmya.tools.auth.rbac.model.dto.UserDTO;
@@ -11,6 +10,7 @@ import com.zmya.tools.auth.rbac.model.request.SaveUserRoleRequest;
 import com.zmya.tools.auth.rbac.model.response.ApiResponse;
 import com.zmya.tools.auth.rbac.service.UserRoleService;
 import com.zmya.tools.auth.rbac.service.UserService;
+import com.zmya.tools.data.core.model.SysUser;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

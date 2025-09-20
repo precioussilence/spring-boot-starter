@@ -1,16 +1,16 @@
 package com.zmya.tools.auth.rbac.service;
 
-import com.zmya.tools.auth.rbac.entity.SysRole;
-import com.zmya.tools.auth.rbac.entity.SysUser;
-import com.zmya.tools.auth.rbac.entity.SysUserRole;
 import com.zmya.tools.auth.rbac.error.BusinessException;
 import com.zmya.tools.auth.rbac.error.ErrorCodeEnum;
 import com.zmya.tools.auth.rbac.model.dto.RoleDTO;
 import com.zmya.tools.auth.rbac.model.request.SaveUserRoleRequest;
-import com.zmya.tools.auth.rbac.repository.SysRoleRepository;
-import com.zmya.tools.auth.rbac.repository.SysUserRepository;
-import com.zmya.tools.auth.rbac.repository.SysUserRoleRepository;
 import com.zmya.tools.auth.rbac.utils.ModelConvertUtils;
+import com.zmya.tools.data.core.dao.SysRoleDao;
+import com.zmya.tools.data.core.dao.SysUserDao;
+import com.zmya.tools.data.core.dao.SysUserRoleDao;
+import com.zmya.tools.data.core.model.SysRole;
+import com.zmya.tools.data.core.model.SysUser;
+import com.zmya.tools.data.core.model.SysUserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -25,16 +25,16 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserRoleService {
 
-    private final SysUserRepository sysUserRepository;
-    private final SysRoleRepository sysRoleRepository;
-    private final SysUserRoleRepository sysUserRoleRepository;
+    private final SysUserDao sysUserDao;
+    private final SysRoleDao sysRoleDao;
+    private final SysUserRoleDao sysUserRoleDao;
 
     public boolean save(SaveUserRoleRequest request) {
-        Optional<SysUser> userOptional = sysUserRepository.findById(request.getUserId());
+        Optional<SysUser> userOptional = sysUserDao.findById(request.getUserId());
         if (userOptional.isEmpty()) {
             throw new BusinessException(ErrorCodeEnum.USER_NOT_FOUND);
         }
-        List<SysRole> roles = sysRoleRepository.findByIdIn(request.getRoleIds());
+        List<SysRole> roles = sysRoleDao.findByIdIn(request.getRoleIds());
         if (CollectionUtils.isEmpty(roles)) {
             throw new BusinessException(ErrorCodeEnum.ROLE_NOT_FOUND);
         }
@@ -43,11 +43,12 @@ public class UserRoleService {
             throw new BusinessException(ErrorCodeEnum.ROLE_NOT_FOUND);
         }
         List<Long> needSaveRoleIds = new ArrayList<>();
-        List<SysUserRole> savedUserRoles = sysUserRoleRepository.findByUserAndRoleIn(userOptional.get(), roles);
+        List<Long> roleIds = roles.stream().map(SysRole::getId).toList();
+        List<SysUserRole> savedUserRoles = sysUserRoleDao.findByUserAndRoleIn(userOptional.get().getId(), roleIds);
         if (CollectionUtils.isEmpty(savedUserRoles)) {
             needSaveRoleIds.addAll(request.getRoleIds());
         } else {
-            List<Long> savedUserRoleIds = savedUserRoles.stream().map(SysUserRole::getRole).map(SysRole::getId).toList();
+            List<Long> savedUserRoleIds = savedUserRoles.stream().map(SysUserRole::getRoleId).toList();
             needSaveRoleIds.addAll(request.getRoleIds().stream().filter(roleId -> !savedUserRoleIds.contains(roleId)).toList());
         }
         if (needSaveRoleIds.isEmpty()) {
@@ -56,25 +57,25 @@ public class UserRoleService {
         List<SysUserRole> needSaveUserRoles = new ArrayList<>();
         needSaveRoleIds.forEach(roleId -> {
             SysUserRole sysUserRole = new SysUserRole();
-            sysUserRole.setUser(sysUserRepository.getReferenceById(request.getUserId()));
-            sysUserRole.setRole(sysRoleRepository.getReferenceById(roleId));
+            sysUserRole.setUserId(request.getUserId());
+            sysUserRole.setRoleId(roleId);
             needSaveUserRoles.add(sysUserRole);
         });
-        List<SysUserRole> sysUserRoles = sysUserRoleRepository.saveAll(needSaveUserRoles);
+        List<SysUserRole> sysUserRoles = sysUserRoleDao.saveAll(needSaveUserRoles);
         return !CollectionUtils.isEmpty(sysUserRoles);
     }
 
     public List<RoleDTO> list(Long userId) {
-        List<SysRole> allRoles = sysRoleRepository.findAll();
+        List<SysRole> allRoles = sysRoleDao.findAll();
         if (CollectionUtils.isEmpty(allRoles)) {
             return new ArrayList<>();
         }
         List<RoleDTO> roleDTOS = ModelConvertUtils.fromRoles(allRoles);
-        List<SysUserRole> userRoles = sysUserRoleRepository.findByUser_Id(userId);
+        List<SysUserRole> userRoles = sysUserRoleDao.findByUserId(userId);
         if (CollectionUtils.isEmpty(userRoles)) {
             return roleDTOS;
         }
-        List<Long> ownedRoleIds = userRoles.stream().map(SysUserRole::getRole).map(SysRole::getId).toList();
+        List<Long> ownedRoleIds = userRoles.stream().map(SysUserRole::getRoleId).toList();
         roleDTOS.stream().filter(role -> ownedRoleIds.contains(role.getId())).forEach(roleDTO -> roleDTO.setOwned(true));
         return roleDTOS;
     }
