@@ -25,13 +25,22 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
+            <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.zmya.tools.auth</groupId>
             <artifactId>rbac</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zmya.tools.data</groupId>
+            <artifactId>jpa</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zmya.tools.data</groupId>
+            <artifactId>mybatis</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

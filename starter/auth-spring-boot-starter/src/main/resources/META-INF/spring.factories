@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.zmya.tools.starter.auth.autoconfigure.AuthAutoConfiguration
