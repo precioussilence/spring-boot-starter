@@ -34,8 +34,8 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zmya.tools.auth</groupId>
-            <artifactId>rbac</artifactId>
+            <groupId>com.zmya.tools.starter</groupId>
+            <artifactId>auth-spring-boot-starter</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
