@@ -26,6 +26,7 @@
 		<module>demo</module>
 		<module>base</module>
         <module>data</module>
+        <module>starter</module>
     </modules>
 	<scm>
 		<connection/>
