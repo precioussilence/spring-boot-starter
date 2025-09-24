@@ -42,3 +42,8 @@ logging:
     org.springframework.security: INFO
     com.example.jwt: DEBUG
     org.hibernate.SQL: WARN
+
+tools:
+  auth:
+    enable: true
+    orm-type: jpa
