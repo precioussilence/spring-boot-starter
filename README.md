@@ -1,37 +1,41 @@
-一个基于现代Spring技术栈的快速开发脚手架工具，帮助Java开发者快速构建安全、高效的企业级应用。
+A rapid development scaffolding tool based on modern Spring technology stack, designed to help Java developers quickly build secure and efficient enterprise-level applications.
 
-## 技术栈亮点
+🌐 **Languages:**
+- [English](README.md)
+- [简体中文](README.zh-CN.md)
 
-- **前沿技术**：基于Java 21 + Spring Boot 3.5.4 + Spring Security 6.5.2
-- **安全认证**：基于Spring Security实现的完整的RBAC权限控制系统，开箱即用
-- **现代化架构**：清晰的模块划分和代码组织结构
+## Technology Stack Highlights
 
-## 功能特性
+**Cutting-edge Technologies**: Built on Java 21 + Spring Boot 3.5.4 + Spring Security 6.5.2
+**Security & Authentication**: Complete RBAC permission control system implemented with Spring Security, ready to use out-of-the-box
+**Modern Architecture**: Clear module separation and well-organized code structure
 
-### 已实现功能
+## Key Features
 
-- 认证鉴权
-  - ✅ 基于RBAC的完整权限控制系统
-  - ✅ JWT认证集成
-  - ✅ 用户/角色/权限基础管理
-  - ✅ 统一异常处理机制
-- 待续。。。 
+### Implemented Features
 
-## 路线图
+- Authentication & Authorization
+  - ✅ Complete RBAC-based permission control system
+  - ✅ JWT authentication integration
+  - ✅ Basic user/role/permission management
+  - ✅ Unified exception handling mechanism
+- More coming soon...
 
-### 近期计划
+## Roadmap
 
-- 🔧 完善base模块 
-- 🔧 添加更多示例模块
-- 集成Mybatis
-- 集成Redis
-- 模块组件化、可替换
-- 🔧 集成前端管理项目
+### Short-term Plans
 
-### 长期规划
+- 🔧 Enhance base module functionality
+- 🔧 Add more example modules
+- 🔧 Integrate Mybatis support
+- 🔧 Integrate Redis caching
+- 🔧 Modularize components for replaceability
+- 🔧 Integrate frontend admin project
 
-- 🚀 代码生成器功能
-- 🌐 微服务支持(Spring Cloud集成)
-- 集成Kafka
-- 集成Netty
-- 集成Elasticsearch
+### Long-term Vision
+
+- 🚀 Code generator capabilities
+- 🚀 Microservices support (Spring Cloud integration)
+- 🚀 Kafka messaging integration
+- 🚀 Netty networking integration
+- 🚀 Elasticsearch search integration
