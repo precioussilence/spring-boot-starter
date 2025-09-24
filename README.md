@@ -6,9 +6,9 @@ A rapid development scaffolding tool based on modern Spring technology stack, de
 
 ## Technology Stack Highlights
 
-**Cutting-edge Technologies**: Built on Java 21 + Spring Boot 3.5.4 + Spring Security 6.5.2
-**Security & Authentication**: Complete RBAC permission control system implemented with Spring Security, ready to use out-of-the-box
-**Modern Architecture**: Clear module separation and well-organized code structure
+- **Cutting-edge Technologies**: Built on Java 21 + Spring Boot 3.5.4 + Spring Security 6.5.2
+- **Security & Authentication**: Complete RBAC permission control system implemented with Spring Security, ready to use out-of-the-box
+- **Modern Architecture**: Clear module separation and well-organized code structure
 
 ## Key Features
 
