@@ -26,6 +26,8 @@ application-*.yml
 application-*.yaml
 application-*.properties
 
+generatorConfig.xml
+
 # But keep the main configuration templates
 !application.yml
 !application.yaml
