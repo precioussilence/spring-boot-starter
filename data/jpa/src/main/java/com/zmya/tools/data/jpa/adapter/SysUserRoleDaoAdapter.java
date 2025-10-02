@@ -54,7 +54,7 @@ public class SysUserRoleDaoAdapter implements SysUserRoleDao {
     }
 
     @Override
-    public List<SysUserRole> saveAll(Collection<SysUserRole> sysUserRoles) {
+    public List<SysUserRole> saveAll(List<SysUserRole> sysUserRoles) {
         List<SysUserRoleEntity> entities = new ArrayList<>();
         sysUserRoles.forEach(source -> {
             SysUserRoleEntity sysUserRole = new SysUserRoleEntity();

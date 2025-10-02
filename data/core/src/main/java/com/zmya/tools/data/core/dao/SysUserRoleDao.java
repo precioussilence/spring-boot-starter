@@ -10,5 +10,5 @@ public interface SysUserRoleDao {
 
     List<SysUserRole> findByUserId(Long userId);
 
-    List<SysUserRole> saveAll(Collection<SysUserRole> sysUserRoles);
+    List<SysUserRole> saveAll(List<SysUserRole> sysUserRoles);
 }

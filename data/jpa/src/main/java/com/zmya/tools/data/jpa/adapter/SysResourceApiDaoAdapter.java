@@ -43,7 +43,7 @@ public class SysResourceApiDaoAdapter implements SysResourceApiDao {
     }
 
     @Override
-    public List<SysResourceApi> saveAll(Collection<SysResourceApi> sysResourceApis) {
+    public List<SysResourceApi> saveAll(List<SysResourceApi> sysResourceApis) {
         List<SysResourceApiEntity> entities = sysResourceApis.stream().map(source -> {
             SysResourceApiEntity entity = new SysResourceApiEntity();
             entity.setResource(sysResourceRepository.getReferenceById(source.getResourceId()));

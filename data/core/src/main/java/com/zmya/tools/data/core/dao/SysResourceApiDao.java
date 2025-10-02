@@ -8,5 +8,5 @@ import java.util.List;
 public interface SysResourceApiDao {
     List<SysResourceApi> findByResourceAndApiIn(Long resourceId, Collection<Long> apiIds);
 
-    List<SysResourceApi> saveAll(Collection<SysResourceApi> sysResourceApis);
+    List<SysResourceApi> saveAll(List<SysResourceApi> sysResourceApis);
 }
