@@ -70,24 +70,27 @@ public class SysResourceDaoAdapter implements SysResourceDao {
 
     @Override
     public PageResult<SysResource> findAll(PageQuery query, String resourceName) {
-        if (Objects.isNull(query) && !StringUtils.hasText(resourceName)) {
-            return PageResult.empty();
-        }
         long limit = Objects.isNull(query) ? 10L : query.getPageSize();
         long offset = Objects.isNull(query) ? 0L : query.getPageNumber() * limit;
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysResourceEntityDynamicSqlSupport.sysResourceEntity.allColumns())
-                .from(SysResourceEntityDynamicSqlSupport.sysResourceEntity)
-                .where(SysResourceEntityDynamicSqlSupport.resourceName, SqlBuilder.isEqualToWhenPresent(resourceName))
-                .limit(limit)
-                .offset(offset)
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        long count = sysResourceMapper.count(provider);
+        long count = sysResourceMapper.count(completer -> StringUtils.hasText(resourceName) ?
+                completer
+                        .where(SysResourceEntityDynamicSqlSupport.resourceName, SqlBuilder.isEqualToWhenPresent(resourceName))
+                :
+                completer
+        );
         if (count == 0L) {
             return PageResult.of(query, count, List.of());
         }
-        List<SysResourceEntity> entities = sysResourceMapper.selectMany(provider);
+        List<SysResourceEntity> entities = sysResourceMapper.select(completer -> StringUtils.hasText(resourceName) ?
+                completer
+                        .where(SysResourceEntityDynamicSqlSupport.resourceName, SqlBuilder.isEqualToWhenPresent(resourceName))
+                        .limit(limit)
+                        .offset(offset)
+                :
+                completer
+                        .limit(limit)
+                        .offset(offset)
+        );
         List<SysResource> resources = entities.stream().map(source -> {
             SysResource target = new SysResource();
             BeanUtils.copyProperties(source, target);

@@ -19,7 +19,13 @@ public class PageResult<T> {
     }
 
     public static <T> PageResult<T> empty() {
-        return new PageResult<>();
+        PageResult<T> result = new PageResult<>();
+        result.setPageNumber(0);
+        result.setPageSize(0);
+        result.setTotalElements(0L);
+        result.setTotalPages(0);
+        result.setContent(List.of());
+        return result;
     }
 
     public static <T> PageResult<T> of(PageQuery query, Long totalElements, List<T> content) {

@@ -88,31 +88,37 @@ public class SysUserDaoAdapter implements SysUserDao {
 
     @Override
     public PageResult<SysUser> findAll(PageQuery query, String username, String nickname, String phone, String email) {
-        if (Objects.isNull(query)
-                && !StringUtils.hasText(username)
+        boolean queryAll = !StringUtils.hasText(username)
                 && !StringUtils.hasText(nickname)
                 && !StringUtils.hasText(phone)
-                && !StringUtils.hasText(email)) {
-            return PageResult.empty();
-        }
+                && !StringUtils.hasText(email);
         long limit = Objects.isNull(query) ? 10L : query.getPageSize();
         long offset = Objects.isNull(query) ? 0L : query.getPageNumber() * limit;
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysUserEntityDynamicSqlSupport.sysUserEntity.allColumns())
-                .from(SysUserEntityDynamicSqlSupport.sysUserEntity)
-                .where(SysUserEntityDynamicSqlSupport.username, SqlBuilder.isEqualToWhenPresent(username))
-                .and(SysUserEntityDynamicSqlSupport.nickname, SqlBuilder.isEqualToWhenPresent(nickname))
-                .and(SysUserEntityDynamicSqlSupport.phone, SqlBuilder.isEqualToWhenPresent(phone))
-                .and(SysUserEntityDynamicSqlSupport.email, SqlBuilder.isEqualToWhenPresent(email))
-                .limit(limit)
-                .offset(offset)
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        long count = sysUserMapper.count(provider);
+        long count = sysUserMapper.count(completer -> queryAll ?
+                completer
+                :
+                completer
+                        .where(SysUserEntityDynamicSqlSupport.username, SqlBuilder.isEqualToWhenPresent(username))
+                        .and(SysUserEntityDynamicSqlSupport.nickname, SqlBuilder.isEqualToWhenPresent(nickname))
+                        .and(SysUserEntityDynamicSqlSupport.phone, SqlBuilder.isEqualToWhenPresent(phone))
+                        .and(SysUserEntityDynamicSqlSupport.email, SqlBuilder.isEqualToWhenPresent(email))
+        );
         if (count == 0L) {
             return PageResult.of(query, count, List.of());
         }
-        List<SysUserEntity> entities = sysUserMapper.selectMany(provider);
+        List<SysUserEntity> entities = sysUserMapper.select(completer -> queryAll ?
+                completer
+                        .limit(limit)
+                        .offset(offset)
+                :
+                completer
+                        .where(SysUserEntityDynamicSqlSupport.username, SqlBuilder.isEqualToWhenPresent(username))
+                        .and(SysUserEntityDynamicSqlSupport.nickname, SqlBuilder.isEqualToWhenPresent(nickname))
+                        .and(SysUserEntityDynamicSqlSupport.phone, SqlBuilder.isEqualToWhenPresent(phone))
+                        .and(SysUserEntityDynamicSqlSupport.email, SqlBuilder.isEqualToWhenPresent(email))
+                        .limit(limit)
+                        .offset(offset)
+        );
         List<SysUser> users = entities.stream().map(source -> {
             SysUser target = new SysUser();
             BeanUtils.copyProperties(source, target);

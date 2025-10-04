@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @ConditionalOnProperty(name = "zmya.data.impl", havingValue = "mybatis", matchIfMissing = true)
@@ -118,7 +119,13 @@ public class SysApiDaoAdapter implements SysApiDao {
             BeanUtils.copyProperties(source, target);
             return target;
         }).toList();
-        entities.forEach(sysApiMapper::insert);
+        entities.forEach(entity -> {
+            if (Objects.nonNull(entity.getId())) {
+                sysApiMapper.updateByPrimaryKey(entity);
+            } else {
+                sysApiMapper.insert(entity);
+            }
+        });
         return entities.stream().map(source -> {
             SysApi target = new SysApi();
             BeanUtils.copyProperties(source, target);

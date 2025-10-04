@@ -77,24 +77,28 @@ public class SysRoleDaoAdapter implements SysRoleDao {
 
     @Override
     public PageResult<SysRole> findAll(PageQuery query, String roleName) {
-        if (Objects.isNull(query) && !StringUtils.hasText(roleName)) {
-            return PageResult.empty();
-        }
         long limit = Objects.isNull(query) ? 10L : query.getPageSize();
         long offset = Objects.isNull(query) ? 0L : query.getPageNumber() * limit;
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysRoleEntityDynamicSqlSupport.sysRoleEntity.allColumns())
-                .from(SysRoleEntityDynamicSqlSupport.sysRoleEntity)
-                .where(SysRoleEntityDynamicSqlSupport.roleName, SqlBuilder.isEqualToWhenPresent(roleName))
-                .limit(limit)
-                .offset(offset)
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        long count = sysRoleMapper.count(provider);
+        long count = sysRoleMapper.count(completer -> StringUtils.hasText(roleName) ?
+                completer
+                        .where(SysRoleEntityDynamicSqlSupport.roleName, SqlBuilder.isEqualToWhenPresent(roleName))
+                :
+                completer
+        );
         if (count == 0L) {
             return PageResult.of(query, count, List.of());
         }
-        List<SysRoleEntity> entities = sysRoleMapper.selectMany(provider);
+        List<SysRoleEntity> entities = sysRoleMapper.select(completer -> StringUtils.hasText(roleName) ?
+                completer
+                        .where(SysRoleEntityDynamicSqlSupport.roleName, SqlBuilder.isEqualToWhenPresent(roleName))
+                        .limit(limit)
+                        .offset(offset)
+                :
+                completer
+                        .limit(limit)
+                        .offset(offset)
+
+        );
         List<SysRole> resources = entities.stream().map(source -> {
             SysRole target = new SysRole();
             BeanUtils.copyProperties(source, target);

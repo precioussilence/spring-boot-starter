@@ -13,8 +13,4 @@ public class PageResultDTO<T> {
     private Integer totalPages;
     private List<T> content;
 
-    public Integer getPageNumber() {
-        return this.pageNumber + 1;
-    }
-
 }
