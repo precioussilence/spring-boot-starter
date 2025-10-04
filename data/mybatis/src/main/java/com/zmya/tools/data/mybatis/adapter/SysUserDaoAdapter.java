@@ -4,7 +4,6 @@ import com.zmya.tools.data.core.common.query.PageQuery;
 import com.zmya.tools.data.core.common.result.PageResult;
 import com.zmya.tools.data.core.dao.SysUserDao;
 import com.zmya.tools.data.core.model.SysUser;
-import com.zmya.tools.data.mybatis.entity.SysRoleEntity;
 import com.zmya.tools.data.mybatis.entity.SysUserEntity;
 import com.zmya.tools.data.mybatis.mapper.*;
 import lombok.AllArgsConstructor;
@@ -28,7 +27,7 @@ import java.util.Optional;
 public class SysUserDaoAdapter implements SysUserDao {
 
     private final SysUserMapper sysUserMapper;
-    private final SysRoleMapper sysRoleMapper;
+    private final AuthorizationMapper authorizationMapper;
 
     @Override
     public List<String> findGrantedRoleCodes(String username) {
@@ -45,8 +44,7 @@ public class SysUserDaoAdapter implements SysUserDao {
                 .where(SysUserEntityDynamicSqlSupport.username, SqlBuilder.isEqualToWhenPresent(username))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
-        List<SysRoleEntity> entities = sysRoleMapper.selectMany(provider);
-        return entities.stream().map(SysRoleEntity::getRoleCode).toList();
+        return authorizationMapper.findGrantedRoleCodes(provider);
     }
 
     @Override

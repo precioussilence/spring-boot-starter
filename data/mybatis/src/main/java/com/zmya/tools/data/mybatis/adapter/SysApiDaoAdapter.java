@@ -3,7 +3,6 @@ package com.zmya.tools.data.mybatis.adapter;
 import com.zmya.tools.data.core.dao.SysApiDao;
 import com.zmya.tools.data.core.model.SysApi;
 import com.zmya.tools.data.mybatis.entity.SysApiEntity;
-import com.zmya.tools.data.mybatis.entity.SysRoleEntity;
 import com.zmya.tools.data.mybatis.mapper.*;
 import lombok.AllArgsConstructor;
 import org.mybatis.dynamic.sql.SqlBuilder;
@@ -26,7 +25,7 @@ import java.util.Objects;
 public class SysApiDaoAdapter implements SysApiDao {
 
     private final SysApiMapper sysApiMapper;
-    private final SysRoleMapper sysRoleMapper;
+    private final AuthorizationMapper authorizationMapper;
 
     @Override
     public List<String> findRequiredRoleCodes(String url, String method) {
@@ -48,8 +47,7 @@ public class SysApiDaoAdapter implements SysApiDao {
                 .and(SysApiEntityDynamicSqlSupport.method, SqlBuilder.isEqualToWhenPresent(method))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
-        List<SysRoleEntity> entities = sysRoleMapper.selectMany(provider);
-        return entities.stream().map(SysRoleEntity::getRoleCode).toList();
+        return authorizationMapper.findRequiredRoleCodes(provider);
     }
 
     @Override
