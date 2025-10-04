@@ -62,13 +62,9 @@ public class SysUserDaoAdapter implements SysUserDao {
         if (!StringUtils.hasText(username)) {
             return List.of();
         }
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysUserEntityDynamicSqlSupport.sysUserEntity.allColumns())
-                .from(SysUserEntityDynamicSqlSupport.sysUserEntity)
+        List<SysUserEntity> entities = sysUserMapper.select(completer -> completer
                 .where(SysUserEntityDynamicSqlSupport.username, SqlBuilder.isEqualToWhenPresent(username))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        List<SysUserEntity> entities = sysUserMapper.selectMany(provider);
+        );
         return entities.stream().map(source -> {
             SysUser target = new SysUser();
             BeanUtils.copyProperties(source, target);

@@ -7,8 +7,6 @@ import com.zmya.tools.data.mybatis.mapper.SysRoleResourceEntityDynamicSqlSupport
 import com.zmya.tools.data.mybatis.mapper.SysRoleResourceMapper;
 import lombok.AllArgsConstructor;
 import org.mybatis.dynamic.sql.SqlBuilder;
-import org.mybatis.dynamic.sql.render.RenderingStrategies;
-import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -31,13 +29,9 @@ public class SysRoleResourceDaoAdapter implements SysRoleResourceDao {
         if (CollectionUtils.isEmpty(resourceIds)) {
             return List.of();
         }
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysRoleResourceEntityDynamicSqlSupport.sysRoleResourceEntity.allColumns())
-                .from(SysRoleResourceEntityDynamicSqlSupport.sysRoleResourceEntity)
+        List<SysRoleResourceEntity> entities = sysRoleResourceMapper.select(completer -> completer
                 .where(SysRoleResourceEntityDynamicSqlSupport.resourceId, SqlBuilder.isInWhenPresent(resourceIds))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        List<SysRoleResourceEntity> entities = sysRoleResourceMapper.selectMany(provider);
+        );
         return entities.stream().map(source -> {
             SysRoleResource target = new SysRoleResource();
             BeanUtils.copyProperties(source, target);
@@ -50,14 +44,10 @@ public class SysRoleResourceDaoAdapter implements SysRoleResourceDao {
         if (Objects.isNull(roleId) && CollectionUtils.isEmpty(resourceIds)) {
             return List.of();
         }
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysRoleResourceEntityDynamicSqlSupport.sysRoleResourceEntity.allColumns())
-                .from(SysRoleResourceEntityDynamicSqlSupport.sysRoleResourceEntity)
+        List<SysRoleResourceEntity> entities = sysRoleResourceMapper.select(completer -> completer
                 .where(SysRoleResourceEntityDynamicSqlSupport.roleId, SqlBuilder.isEqualToWhenPresent(roleId))
                 .and(SysRoleResourceEntityDynamicSqlSupport.resourceId, SqlBuilder.isInWhenPresent(resourceIds))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        List<SysRoleResourceEntity> entities = sysRoleResourceMapper.selectMany(provider);
+        );
         return entities.stream().map(source -> {
             SysRoleResource target = new SysRoleResource();
             BeanUtils.copyProperties(source, target);
@@ -70,13 +60,9 @@ public class SysRoleResourceDaoAdapter implements SysRoleResourceDao {
         if (Objects.isNull(roleId)) {
             return List.of();
         }
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysRoleResourceEntityDynamicSqlSupport.sysRoleResourceEntity.allColumns())
-                .from(SysRoleResourceEntityDynamicSqlSupport.sysRoleResourceEntity)
+        List<SysRoleResourceEntity> entities = sysRoleResourceMapper.select(completer -> completer
                 .where(SysRoleResourceEntityDynamicSqlSupport.roleId, SqlBuilder.isEqualToWhenPresent(roleId))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        List<SysRoleResourceEntity> entities = sysRoleResourceMapper.selectMany(provider);
+        );
         return entities.stream().map(source -> {
             SysRoleResource target = new SysRoleResource();
             BeanUtils.copyProperties(source, target);

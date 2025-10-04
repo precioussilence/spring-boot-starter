@@ -7,8 +7,6 @@ import com.zmya.tools.data.mybatis.mapper.SysUserRoleEntityDynamicSqlSupport;
 import com.zmya.tools.data.mybatis.mapper.SysUserRoleMapper;
 import lombok.AllArgsConstructor;
 import org.mybatis.dynamic.sql.SqlBuilder;
-import org.mybatis.dynamic.sql.render.RenderingStrategies;
-import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -31,14 +29,10 @@ public class SysUserRoleDaoAdapter implements SysUserRoleDao {
         if (Objects.isNull(userId) && CollectionUtils.isEmpty(roleIds)) {
             return List.of();
         }
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysUserRoleEntityDynamicSqlSupport.sysUserRoleEntity.allColumns())
-                .from(SysUserRoleEntityDynamicSqlSupport.sysUserRoleEntity)
+        List<SysUserRoleEntity> entities = sysUserRoleMapper.select(completer -> completer
                 .where(SysUserRoleEntityDynamicSqlSupport.userId, SqlBuilder.isEqualToWhenPresent(userId))
                 .and(SysUserRoleEntityDynamicSqlSupport.roleId, SqlBuilder.isInWhenPresent(roleIds))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        List<SysUserRoleEntity> entities = sysUserRoleMapper.selectMany(provider);
+        );
         return entities.stream().map(source -> {
             SysUserRole target = new SysUserRole();
             BeanUtils.copyProperties(source, target);
@@ -51,13 +45,9 @@ public class SysUserRoleDaoAdapter implements SysUserRoleDao {
         if (Objects.isNull(userId)) {
             return List.of();
         }
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysUserRoleEntityDynamicSqlSupport.sysUserRoleEntity.allColumns())
-                .from(SysUserRoleEntityDynamicSqlSupport.sysUserRoleEntity)
+        List<SysUserRoleEntity> entities = sysUserRoleMapper.select(completer -> completer
                 .where(SysUserRoleEntityDynamicSqlSupport.userId, SqlBuilder.isEqualToWhenPresent(userId))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        List<SysUserRoleEntity> entities = sysUserRoleMapper.selectMany(provider);
+        );
         return entities.stream().map(source -> {
             SysUserRole target = new SysUserRole();
             BeanUtils.copyProperties(source, target);

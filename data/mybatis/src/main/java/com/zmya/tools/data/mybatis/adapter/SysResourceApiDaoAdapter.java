@@ -7,8 +7,6 @@ import com.zmya.tools.data.mybatis.mapper.SysResourceApiEntityDynamicSqlSupport;
 import com.zmya.tools.data.mybatis.mapper.SysResourceApiMapper;
 import lombok.AllArgsConstructor;
 import org.mybatis.dynamic.sql.SqlBuilder;
-import org.mybatis.dynamic.sql.render.RenderingStrategies;
-import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -31,14 +29,10 @@ public class SysResourceApiDaoAdapter implements SysResourceApiDao {
         if (Objects.isNull(resourceId) && CollectionUtils.isEmpty(apiIds)) {
             return List.of();
         }
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysResourceApiEntityDynamicSqlSupport.sysResourceApiEntity.allColumns())
-                .from(SysResourceApiEntityDynamicSqlSupport.sysResourceApiEntity)
+        List<SysResourceApiEntity> entities = sysResourceApiMapper.select(completer -> completer
                 .where(SysResourceApiEntityDynamicSqlSupport.resourceId, SqlBuilder.isEqualToWhenPresent(resourceId))
                 .and(SysResourceApiEntityDynamicSqlSupport.apiId, SqlBuilder.isInWhenPresent(apiIds))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        List<SysResourceApiEntity> entities = sysResourceApiMapper.selectMany(provider);
+        );
         return entities.stream().map(source -> {
             SysResourceApi target = new SysResourceApi();
             BeanUtils.copyProperties(source, target);

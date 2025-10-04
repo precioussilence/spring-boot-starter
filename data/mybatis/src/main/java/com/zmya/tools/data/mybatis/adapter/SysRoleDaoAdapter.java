@@ -9,8 +9,6 @@ import com.zmya.tools.data.mybatis.mapper.SysRoleEntityDynamicSqlSupport;
 import com.zmya.tools.data.mybatis.mapper.SysRoleMapper;
 import lombok.AllArgsConstructor;
 import org.mybatis.dynamic.sql.SqlBuilder;
-import org.mybatis.dynamic.sql.render.RenderingStrategies;
-import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -44,13 +42,9 @@ public class SysRoleDaoAdapter implements SysRoleDao {
         if (CollectionUtils.isEmpty(ids)) {
             return List.of();
         }
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysRoleEntityDynamicSqlSupport.sysRoleEntity.allColumns())
-                .from(SysRoleEntityDynamicSqlSupport.sysRoleEntity)
+        List<SysRoleEntity> entities = sysRoleMapper.select(completer -> completer
                 .where(SysRoleEntityDynamicSqlSupport.id, SqlBuilder.isInWhenPresent(ids))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        List<SysRoleEntity> entities = sysRoleMapper.selectMany(provider);
+        );
         return entities.stream().map(source -> {
             SysRole target = new SysRole();
             BeanUtils.copyProperties(source, target);
@@ -109,12 +103,7 @@ public class SysRoleDaoAdapter implements SysRoleDao {
 
     @Override
     public List<SysRole> findAll() {
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysRoleEntityDynamicSqlSupport.sysRoleEntity.allColumns())
-                .from(SysRoleEntityDynamicSqlSupport.sysRoleEntity)
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        List<SysRoleEntity> entities = sysRoleMapper.selectMany(provider);
+        List<SysRoleEntity> entities = sysRoleMapper.select(completer -> completer);
         return entities.stream().map(source -> {
             SysRole target = new SysRole();
             BeanUtils.copyProperties(source, target);

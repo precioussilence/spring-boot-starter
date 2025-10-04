@@ -57,13 +57,9 @@ public class SysApiDaoAdapter implements SysApiDao {
         if (CollectionUtils.isEmpty(ids)) {
             return List.of();
         }
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysApiEntityDynamicSqlSupport.sysApiEntity.allColumns())
-                .from(SysApiEntityDynamicSqlSupport.sysApiEntity)
+        List<SysApiEntity> entities = sysApiMapper.select(completer -> completer
                 .where(SysApiEntityDynamicSqlSupport.id, SqlBuilder.isIn(ids))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        List<SysApiEntity> entities = sysApiMapper.selectMany(provider);
+        );
         return entities.stream().map(source -> {
             SysApi target = new SysApi();
             BeanUtils.copyProperties(source, target);
@@ -76,14 +72,10 @@ public class SysApiDaoAdapter implements SysApiDao {
         if (!StringUtils.hasText(url) && !StringUtils.hasText(method)) {
             return List.of();
         }
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysApiEntityDynamicSqlSupport.sysApiEntity.allColumns())
-                .from(SysApiEntityDynamicSqlSupport.sysApiEntity)
+        List<SysApiEntity> entities = sysApiMapper.select(completer -> completer
                 .where(SysApiEntityDynamicSqlSupport.url, SqlBuilder.isEqualToWhenPresent(url))
                 .and(SysApiEntityDynamicSqlSupport.method, SqlBuilder.isEqualToWhenPresent(method))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        List<SysApiEntity> entities = sysApiMapper.selectMany(provider);
+        );
         return entities.stream().map(source -> {
             SysApi target = new SysApi();
             BeanUtils.copyProperties(source, target);
@@ -96,14 +88,10 @@ public class SysApiDaoAdapter implements SysApiDao {
         if (!StringUtils.hasText(apiName) && !StringUtils.hasText(url)) {
             return List.of();
         }
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysApiEntityDynamicSqlSupport.sysApiEntity.allColumns())
-                .from(SysApiEntityDynamicSqlSupport.sysApiEntity)
+        List<SysApiEntity> entities = sysApiMapper.select(completer -> completer
                 .where(SysApiEntityDynamicSqlSupport.apiName, SqlBuilder.isEqualToWhenPresent(apiName))
                 .and(SysApiEntityDynamicSqlSupport.url, SqlBuilder.isEqualToWhenPresent(url))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        List<SysApiEntity> entities = sysApiMapper.selectMany(provider);
+        );
         return entities.stream().map(source -> {
             SysApi target = new SysApi();
             BeanUtils.copyProperties(source, target);

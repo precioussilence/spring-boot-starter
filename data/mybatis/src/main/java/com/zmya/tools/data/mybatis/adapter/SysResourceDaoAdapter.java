@@ -9,8 +9,6 @@ import com.zmya.tools.data.mybatis.mapper.SysResourceEntityDynamicSqlSupport;
 import com.zmya.tools.data.mybatis.mapper.SysResourceMapper;
 import lombok.AllArgsConstructor;
 import org.mybatis.dynamic.sql.SqlBuilder;
-import org.mybatis.dynamic.sql.render.RenderingStrategies;
-import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -35,13 +33,9 @@ public class SysResourceDaoAdapter implements SysResourceDao {
         if (CollectionUtils.isEmpty(ids)) {
             return List.of();
         }
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysResourceEntityDynamicSqlSupport.sysResourceEntity.allColumns())
-                .from(SysResourceEntityDynamicSqlSupport.sysResourceEntity)
+        List<SysResourceEntity> entities = sysResourceMapper.select(completer -> completer
                 .where(SysResourceEntityDynamicSqlSupport.id, SqlBuilder.isInWhenPresent(ids))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        List<SysResourceEntity> entities = sysResourceMapper.selectMany(provider);
+        );
         return entities.stream().map(source -> {
             SysResource target = new SysResource();
             BeanUtils.copyProperties(source, target);
@@ -101,12 +95,7 @@ public class SysResourceDaoAdapter implements SysResourceDao {
 
     @Override
     public List<SysResource> findAll() {
-        SelectStatementProvider provider = SqlBuilder
-                .select(SysResourceEntityDynamicSqlSupport.sysResourceEntity.allColumns())
-                .from(SysResourceEntityDynamicSqlSupport.sysResourceEntity)
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        List<SysResourceEntity> entities = sysResourceMapper.selectMany(provider);
+        List<SysResourceEntity> entities = sysResourceMapper.select(completer -> completer);
         return entities.stream().map(source -> {
             SysResource target = new SysResource();
             BeanUtils.copyProperties(source, target);
