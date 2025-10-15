@@ -27,6 +27,7 @@
 		<module>base</module>
         <module>data</module>
         <module>starter</module>
+        <module>integration</module>
     </modules>
 	<scm>
 		<connection/>
